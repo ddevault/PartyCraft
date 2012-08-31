@@ -43,7 +43,7 @@ to create an issue instead.
 ## Getting Help
 
 You can get help by making an [issue on GitHub](https://github.com/SirCmpwn/PartyCraft/issues), or joining
-#craft.net on irc.freenode.net. If you are already knowledgable about using PartyCraft, consider contributing
+\#craft.net on irc.freenode.net. If you are already knowledgable about using PartyCraft, consider contributing
 to the [wiki](https://github.com/SirCmpwn/PartyCraft/wiki) for the sake of others.
 
 ## Licensing
