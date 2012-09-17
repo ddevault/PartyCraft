@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="ISettingsProvider.cs" />
