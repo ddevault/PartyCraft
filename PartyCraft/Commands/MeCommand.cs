@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Server;
 
 namespace PartyCraft.Commands
 {
@@ -9,24 +10,23 @@ namespace PartyCraft.Commands
     {
         public override string DefaultCommand
         {
-            get { throw new NotImplementedException(); }
+            get { return "me"; }
         }
 
         public override string Documentation
         {
             get
             {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
+                return "Allows you to speak in third person.\n" +
+                    "Usage: /me [text]\n" +
+                    "Example: /me mines a block";
             }
         }
 
-        public override void Execute(params string[] parameters)
+        public override void Execute(Server server, MinecraftClient user, string userText, params string[] parameters)
         {
-            throw new NotImplementedException();
+            server.MinecraftServer.SendChat(string.Format(server.SettingsProvider.Get<string>("chat.self.format"),
+                user.Username, userText));
         }
     }
 }

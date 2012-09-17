@@ -37,6 +37,14 @@ namespace PartyCraft
             MinecraftServer.Stop();
         }
 
+        public List<string> GetUserGroups(string user)
+        {
+            var groups = new List<string>(new[] { "all" });
+            if (SettingsProvider.ContainsKey(user + ".groups"))
+                groups.AddRange(SettingsProvider.Get<List<string>>(user + "groups"));
+            return groups;
+        }
+
         #region Event Handlers
 
         private void MinecraftServerOnChatMessage(object sender, ChatMessageEventArgs chatMessageEventArgs)
@@ -54,6 +62,8 @@ namespace PartyCraft
         private void MinecraftServerOnPlayerLoggedIn(object sender, PlayerLogInEventArgs playerLogInEventArgs)
         {
             playerLogInEventArgs.Handled = true;
+            playerLogInEventArgs.Client.Tags = new Dictionary<string, object>();
+            playerLogInEventArgs.Client.Tags.Add("PartyCraft.UserGroups", GetUserGroups(playerLogInEventArgs.Username));
             MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.join"), playerLogInEventArgs.Username));
         }
 

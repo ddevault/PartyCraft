@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Craft.Net.Server;
+using Craft.Net.Data;
 
 namespace PartyCraft
 {
@@ -24,17 +25,58 @@ namespace PartyCraft
                     command.Aliases = server.SettingsProvider.Get<List<string>>(
                         "command." + command.DefaultCommand + ".aliases");
                 }
+                command.AllowedGroups = new List<string>();
+                if (server.SettingsProvider.ContainsKey("command." + command.DefaultCommand + ".groups"))
+                {
+                    command.AllowedGroups = server.SettingsProvider.Get<List<string>>(
+                        "command." + command.DefaultCommand + ".groups");
+                }
+                else
+                    command.AllowedGroups.Add("all");
+                Commands.Add(command);
             }
         }
 
-        public static void ExecuteCommand(Server server, MinecraftClient user, string command)
+        public static void ExecuteCommand(Server server, MinecraftClient user, string text)
         {
-            
+            string name = text.Substring(1);
+            if (string.IsNullOrEmpty(name))
+                return;
+            var groups = (List<string>)user.Tags["PartyCraft.UserGroups"];
+            var parameters = new string[0];
+            var userText = "";
+            if (name.Contains(" "))
+            {
+                name = name.Remove(name.IndexOf(' '));
+                userText = text.Substring(text.IndexOf(' ') + 1);
+                parameters = userText.Split(' ');
+            }
+            foreach (var command in Commands)
+            {
+                if (command.DefaultCommand == name || command.Aliases.Contains(name))
+                {
+                    bool allowed = false;
+                    foreach (var group in groups)
+                    {
+                        if (command.AllowedGroups.Contains(group))
+                            allowed = true;
+                    }
+                    if (!allowed)
+                    {
+                        user.SendChat(ChatColors.Red + "You do not have permission to use that command.");
+                        return;
+                    }
+                    command.Execute(server, user, userText, parameters);
+                    return;
+                }
+            }
+            user.SendChat(ChatColors.Red + "Command not found.");
         }
 
         public abstract string DefaultCommand { get; }
-        public abstract string Documentation { get; set; }
-        public abstract void Execute(params string[] parameters);
+        public abstract string Documentation { get; }
+        // TODO: CommandContext class
+        public abstract void Execute(Server server, MinecraftClient user, string text, params string[] parameters);
 
         public List<string> Aliases { get; set; }
         public List<string> AllowedGroups { get; set; }

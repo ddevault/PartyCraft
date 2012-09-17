@@ -98,7 +98,7 @@ namespace PartyCraft
         public T Get<T>(string key)
         {
             // TODO: Can this be made better?
-            if (!ContainsKey(key))
+            if (!ContainsKeyNoRecurse(key))
                 return DefaultSettings.Get<T>(key);
             if (typeof(T).IsEnum)
                 return (T)Enum.Parse(typeof(T), ServerProperties[key], true);
@@ -127,7 +127,7 @@ namespace PartyCraft
             return (T)Convert.ChangeType(ServerProperties[key], typeof(T));
         }
 
-        public bool ContainsKey(string key)
+        private bool ContainsKeyNoRecurse(string key)
         {
             foreach (var item in ServerProperties)
             {
@@ -137,6 +137,14 @@ namespace PartyCraft
                     return true;
             }
             return false;
+        }
+
+        public bool ContainsKey(string key)
+        {
+            bool local = ContainsKeyNoRecurse(key);
+            if (local)
+                return true;
+            return DefaultSettings.ContainsKey(key);
         }
 
         private void Save()
