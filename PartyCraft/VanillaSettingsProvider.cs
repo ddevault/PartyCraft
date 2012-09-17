@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,6 +19,7 @@ namespace PartyCraft
     {
         public Dictionary<string, string> ServerProperties;
         private Dictionary<string, string> keyLookup;
+        private string settingsFile;
 
         public VanillaSettingsProvider()
         {
@@ -43,6 +46,12 @@ namespace PartyCraft
             keyLookup.Add("server.motd", "motd");
         }
 
+        public VanillaSettingsProvider(string file) : this()
+        {
+            settingsFile = file;
+            Load(File.Open(file, FileMode.Open));
+        }
+
         public void Load(Stream file)
         {
             StreamReader reader = new StreamReader(file);
@@ -65,7 +74,22 @@ namespace PartyCraft
 
         public void Set(string key, object value)
         {
-            ServerProperties[key] = (string)Convert.ChangeType(value, typeof(string));
+            if (value.GetType().GetInterface("IConvertible") == null)
+            {
+                if (value.GetType().GetInterface("IEnumerable") != null)
+                {
+                    int i = 0;
+                    foreach (var item in (IEnumerable)value)
+                        Set(key + "[" + i++ + "]", item);
+                }
+                else
+                {
+                    // TODO: Serialize
+                    throw new InvalidCastException("Objects must implement IConvertible or IEnumerable.");
+                }
+            }
+            else
+                ServerProperties[key] = (string)Convert.ChangeType(value, typeof(string));
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(key));
             Save();
@@ -73,21 +97,63 @@ namespace PartyCraft
 
         public T Get<T>(string key)
         {
-            if (!ServerProperties.ContainsKey(key))
+            // TODO: Can this be made better?
+            if (!ContainsKey(key))
                 return DefaultSettings.Get<T>(key);
             if (typeof(T).IsEnum)
                 return (T)Enum.Parse(typeof(T), ServerProperties[key], true);
+            if (typeof(T).GetInterface("IConvertible") == null)
+            {
+                if (typeof (T).GetInterface("IEnumerable") != null)
+                {
+                    var items = ServerProperties.Where(p => p.Key.StartsWith(key + "["));
+                    Type genericType = typeof(T).GetGenericArguments()[0];
+                    var results = Array.CreateInstance(genericType, items.Count());
+                    int i = 0;
+                    foreach (var item in items)
+                    {
+                        int start = key.Length + 1;
+                        int length = item.Key.IndexOf(']', start + 1) - start;
+                        int index = int.Parse(item.Key.Substring(start, length));
+                        results.SetValue(typeof (VanillaSettingsProvider).GetMethod("Get").MakeGenericMethod(genericType)
+                            .Invoke(this, new object[] { key + "[" + index + "]" }), index);
+                    }
+                    var listType = typeof(List<>).MakeGenericType(genericType);
+                    if (typeof(T) == listType)
+                        return (T)Activator.CreateInstance(listType, results);
+                    return (T)results.Cast<T>();
+                }
+            }
             return (T)Convert.ChangeType(ServerProperties[key], typeof(T));
         }
 
         public bool ContainsKey(string key)
         {
-            return ServerProperties.ContainsKey(key);
+            foreach (var item in ServerProperties)
+            {
+                if (item.Key == key)
+                    return true;
+                if (item.Key.StartsWith(key + "["))
+                    return true;
+            }
+            return false;
         }
 
         private void Save()
         {
-            // TODO
+            if (settingsFile == null)
+                return;
+            var writer = new StreamWriter(settingsFile);
+            writer.WriteLine("#PartyCraft server properties");
+            writer.WriteLine("#" + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString());
+            foreach (var kvp in ServerProperties)
+            {
+                if (keyLookup.ContainsKey(kvp.Key))
+                    writer.WriteLine(keyLookup[kvp.Key] + "=" + kvp.Value);
+                else
+                    writer.WriteLine(kvp.Key + "=" + kvp.Value);
+            }
+            writer.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

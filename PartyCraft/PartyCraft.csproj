@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Commands\MeCommand.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="ISettingsProvider.cs" />
     <Compile Include="Program.cs" />
@@ -64,9 +65,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\externals\Craft.Net\Craft.Net.Data\Craft.Net.Data.csproj">
       <Project>{30c3f936-8d95-4113-ba48-8b798b056309}</Project>

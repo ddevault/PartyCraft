@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Craft.Net.Server;
+using System.IO;
 
 namespace PartyCraft
 {
@@ -18,18 +19,35 @@ namespace PartyCraft
 
         public static void Main(string[] args)
         {
+            CheckEnviornment();
+            // TODO: Load plugins
             if (PreStartup != null)
                 PreStartup(null, null);
             if (SettingsProvider == null)
-                SettingsProvider = new VanillaSettingsProvider();
+            {
+                // Select a settings provider based on the enviornment
+                if (File.Exists("server.properties"))
+                {
+                    SettingsProvider = new VanillaSettingsProvider();
+                    (SettingsProvider as VanillaSettingsProvider).Load(
+                        File.Open("server.properties", FileMode.Open));
+                }
+                else
+                {
+                    // TODO: Create a better settings provider than vanilla
+                    SettingsProvider = new VanillaSettingsProvider();
+                }
+            }
 
-            Server server = new Server(SettingsProvider);
+            var server = new Server(SettingsProvider);
+            Command.LoadCommands(server);
             // TODO: Better logging
-            var consoleLog = new ConsoleLogWriter(LogImportance.High);
+            var consoleLog = new ConsoleLogWriter(LogImportance.Medium);
             LogProvider.RegisterProvider(consoleLog);
 
             server.Start();
 
+            Console.WriteLine("Press 'q' to quit.");
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -38,6 +56,12 @@ namespace PartyCraft
             }
 
             server.Stop();
+        }
+
+        private static void CheckEnviornment()
+        {
+            if (!Directory.Exists("plugins"))
+                Directory.CreateDirectory("plugins");
         }
     }
 }

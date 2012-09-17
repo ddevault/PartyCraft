@@ -18,7 +18,7 @@ namespace PartyCraft
         public Server(ISettingsProvider settingsProvider)
         {
             SettingsProvider = settingsProvider;
-            var port = SettingsProvider.Get<int>("Server.Port");
+            var port = SettingsProvider.Get<int>("server.port");
             MinecraftServer = new MinecraftServer(new IPEndPoint(IPAddress.Any, port));
             MinecraftServer.ChatMessage += MinecraftServerOnChatMessage;
             MinecraftServer.PlayerLoggedIn += MinecraftServerOnPlayerLoggedIn;
@@ -27,8 +27,8 @@ namespace PartyCraft
 
         public void Start()
         {
-            MinecraftServer.AddLevel(new Level(Level.GetGenerator(SettingsProvider.Get<string>("Level.Type")), 
-                SettingsProvider.Get<string>("Level.Name")));
+            MinecraftServer.AddLevel(new Level(Level.GetGenerator(SettingsProvider.Get<string>("level.type")), 
+                SettingsProvider.Get<string>("level.name")));
             MinecraftServer.Start();
         }
 
@@ -42,8 +42,13 @@ namespace PartyCraft
         private void MinecraftServerOnChatMessage(object sender, ChatMessageEventArgs chatMessageEventArgs)
         {
             chatMessageEventArgs.Handled = true;
-            MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.format"),
-                chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage));
+            if (chatMessageEventArgs.RawMessage.StartsWith("/"))
+                Command.ExecuteCommand(this, chatMessageEventArgs.Origin, chatMessageEventArgs.RawMessage);
+            else
+            {
+                MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.format"),
+                    chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage));
+            }
         }
 
         private void MinecraftServerOnPlayerLoggedIn(object sender, PlayerLogInEventArgs playerLogInEventArgs)
