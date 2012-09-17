@@ -1,6 +1,6 @@
 # PartyCraft
 
-PartyCraft is a 12w34b Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
+PartyCraft is a 12w37a Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
 
 ## Features
 
@@ -11,12 +11,6 @@ machine when operating a server. For more information on progress, see the lates
 
 If there are any additional features you would like, or any problems you encounter while using
 PartyCraft, please do not hesitate to [create an issue](https://github.com/SirCmpwn/Craft.Net/issues).
-
-PartyCraft is a work in progress, and many features may be lacking. However, the current feature list
-includes:
-
-* Support for 12w34b Minecraft clients
-* Support for vanilla Anvil worlds
 
 ## Usage
 

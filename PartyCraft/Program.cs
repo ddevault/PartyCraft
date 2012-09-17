@@ -25,8 +25,8 @@ namespace PartyCraft
 
             Server server = new Server(SettingsProvider);
             // TODO: Better logging
-            ConsoleLogWriter consoleLog = new ConsoleLogWriter(LogImportance.High);
-            server.MinecraftServer.AddLogProvider(consoleLog);
+            var consoleLog = new ConsoleLogWriter(LogImportance.High);
+            LogProvider.RegisterProvider(consoleLog);
 
             server.Start();
 
