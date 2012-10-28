@@ -39,7 +39,7 @@ namespace PartyCraft
 
         public List<string> GetUserGroups(string user)
         {
-            var groups = new List<string>(new[] { "all" });
+            var groups = new List<string>(new[] { "server.default" });
             if (SettingsProvider.ContainsKey(user + ".groups"))
                 groups.AddRange(SettingsProvider.Get<List<string>>(user + "groups"));
             return groups;

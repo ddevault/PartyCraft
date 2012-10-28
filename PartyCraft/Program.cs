@@ -21,6 +21,8 @@ namespace PartyCraft
         /// </summary>
         public static ISettingsProvider SettingsProvider = null;
 
+        public static ConsoleClient ConsoleClient { get; set; }
+
         public static void Main(string[] args)
         {
             CheckEnviornment();
@@ -52,12 +54,19 @@ namespace PartyCraft
 
             server.Start();
 
-            Console.WriteLine("Press 'q' to quit.");
+            Console.WriteLine("Use /stop to kill the server.");
+            ConsoleClient = new ConsoleClient(server.MinecraftServer);
             while (true)
             {
-                var key = Console.ReadKey(true);
-                if (key.KeyChar == 'q')
-                    break;
+                var command = Console.ReadLine();
+                try
+                {
+                    Command.ExecuteCommand(server, ConsoleClient, command);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
             }
 
             server.Stop();
@@ -66,6 +75,7 @@ namespace PartyCraft
         private static void SetUpDefaultPermissions(ISettingsProvider SettingsProvider)
         {
             // TODO: Is this the best way to go about this?
+
         }
 
         private static void CheckEnviornment()

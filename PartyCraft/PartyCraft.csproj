@@ -57,7 +57,10 @@
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
+    <Compile Include="Commands\SeedCommand.cs" />
+    <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Commands\TellCommand.cs" />
+    <Compile Include="ConsoleClient.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="ISettingsProvider.cs" />
     <Compile Include="Program.cs" />

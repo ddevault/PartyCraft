@@ -32,7 +32,7 @@ namespace PartyCraft
                         "command." + command.DefaultCommand + ".groups");
                 }
                 else
-                    command.AllowedGroups.Add("all");
+                    command.LoadDefaultPermissions();
                 Commands.Add(command);
             }
         }
@@ -42,7 +42,6 @@ namespace PartyCraft
             string name = text.Substring(1);
             if (string.IsNullOrEmpty(name))
                 return;
-            var groups = (List<string>)user.Tags["PartyCraft.UserGroups"];
             var parameters = new string[0];
             var userText = "";
             if (name.Contains(" "))
@@ -59,13 +58,7 @@ namespace PartyCraft
                 return;
             }
 
-            bool allowed = false;
-            foreach (var group in groups)
-            {
-                if (command.AllowedGroups.Contains(group))
-                    allowed = true;
-            }
-            if (!allowed)
+            if (!MayUseCommand(command, user))
             {
                 user.SendChat(ChatColors.Red + "You do not have permission to use that command.");
                 return;
@@ -81,6 +74,22 @@ namespace PartyCraft
                     return command;
             }
             return null;
+        }
+
+        public static bool MayUseCommand(Command command, MinecraftClient user)
+        {
+            var groups = (List<string>)user.Tags["PartyCraft.UserGroups"];
+            foreach (var group in groups)
+            {
+                if (command.AllowedGroups.Contains(group))
+                    return true;
+            }
+            return false;
+        }
+
+        protected internal virtual void LoadDefaultPermissions()
+        {
+            AllowedGroups.Add("server.default");
         }
 
         public abstract string DefaultCommand { get; }
