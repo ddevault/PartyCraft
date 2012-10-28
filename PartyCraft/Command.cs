@@ -51,26 +51,36 @@ namespace PartyCraft
                 userText = text.Substring(text.IndexOf(' ') + 1);
                 parameters = userText.Split(' ');
             }
+            var command = GetCommand(name);
+
+            if (command == null)
+            {
+                user.SendChat(ChatColors.Red + "That command was not found.");
+                return;
+            }
+
+            bool allowed = false;
+            foreach (var group in groups)
+            {
+                if (command.AllowedGroups.Contains(group))
+                    allowed = true;
+            }
+            if (!allowed)
+            {
+                user.SendChat(ChatColors.Red + "You do not have permission to use that command.");
+                return;
+            }
+            command.Execute(server, user, userText, parameters);
+        }
+
+        public static Command GetCommand(string name)
+        {
             foreach (var command in Commands)
             {
                 if (command.DefaultCommand == name || command.Aliases.Contains(name))
-                {
-                    bool allowed = false;
-                    foreach (var group in groups)
-                    {
-                        if (command.AllowedGroups.Contains(group))
-                            allowed = true;
-                    }
-                    if (!allowed)
-                    {
-                        user.SendChat(ChatColors.Red + "You do not have permission to use that command.");
-                        return;
-                    }
-                    command.Execute(server, user, userText, parameters);
-                    return;
-                }
+                    return command;
             }
-            user.SendChat(ChatColors.Red + "Command not found.");
+            return null;
         }
 
         public abstract string DefaultCommand { get; }

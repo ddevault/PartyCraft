@@ -35,7 +35,6 @@ namespace PartyCraft
             Set("chat.self.format", "* {0} {1}");
             Set("chat.join", ChatColors.Yellow + "{0} has joined the game.");
             Set("chat.leave", ChatColors.Yellow + "{0} has left the game.");
-            Set("command.me.aliases", new List<string>(new[] { "test" }));
         }
 
         public static void Set(string key, object value)

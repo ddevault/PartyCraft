@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Data;
 using Craft.Net.Server;
 
 namespace PartyCraft.Commands
@@ -18,7 +19,7 @@ namespace PartyCraft.Commands
             get
             {
                 return "Allows you to speak in third person.\n" +
-                    "Usage: /me [text]\n" +
+                    "Usage: /me " + ChatColors.Italic + "text\n" +
                     "Example: /me mines a block";
             }
         }

@@ -10,6 +10,10 @@ namespace PartyCraft
 {
     public class Program
     {
+        /// <summary>
+        /// Called immediately after plugins are loaded, and before anything else happens.
+        /// This is your only opportunity as a plugin to set Program.SettingsProvider.
+        /// </summary>
         public static event EventHandler PreStartup;
         /// <summary>
         /// The server's settings provider. If this is null after
@@ -36,6 +40,7 @@ namespace PartyCraft
                 {
                     // TODO: Create a better settings provider than vanilla
                     SettingsProvider = new VanillaSettingsProvider();
+                    SetUpDefaultPermissions(SettingsProvider);
                 }
             }
 
@@ -56,6 +61,11 @@ namespace PartyCraft
             }
 
             server.Stop();
+        }
+
+        private static void SetUpDefaultPermissions(ISettingsProvider SettingsProvider)
+        {
+            // TODO: Is this the best way to go about this?
         }
 
         private static void CheckEnviornment()
