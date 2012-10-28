@@ -68,6 +68,7 @@ namespace PartyCraft
 
         public static Command GetCommand(string name)
         {
+            name = name.ToLower();
             foreach (var command in Commands)
             {
                 if (command.DefaultCommand == name || command.Aliases.Contains(name))
