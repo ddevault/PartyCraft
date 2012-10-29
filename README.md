@@ -1,6 +1,6 @@
 # PartyCraft
 
-PartyCraft is a 12w37a Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
+PartyCraft is a 1.4.2 Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
 
 ## Features
 
@@ -25,7 +25,7 @@ If a vanilla-style server.properties file is provided, PartyCraft will use it. O
 file will be produced and populated with default values. You may use a plugin to change the settings format,
 such as JSON, YML, or SQL.
 
-After starting the server at the command line, you should be free to connect 12w34b clients to it.
+After starting the server at the command line, you should be free to connect to it.
 
 ## Contributing
 
