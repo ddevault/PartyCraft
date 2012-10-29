@@ -33,11 +33,7 @@ namespace PartyCraft
             {
                 // Select a settings provider based on the enviornment
                 if (File.Exists("server.properties"))
-                {
-                    SettingsProvider = new VanillaSettingsProvider();
-                    (SettingsProvider as VanillaSettingsProvider).Load(
-                        File.Open("server.properties", FileMode.Open));
-                }
+                    SettingsProvider = new VanillaSettingsProvider("server.properties");
                 else
                 {
                     // TODO: Create a better settings provider than vanilla

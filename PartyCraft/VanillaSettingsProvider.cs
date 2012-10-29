@@ -12,8 +12,7 @@ using System.IO;
 namespace PartyCraft
 {
     /// <summary>
-    /// Provides an means of working with a server.properties file
-    /// through the ISettingsProvider interface.
+    /// Provides an means of working with a vanilla server.properties file through the ISettingsProvider interface.
     /// </summary>
     public class VanillaSettingsProvider : ISettingsProvider
     {
@@ -91,9 +90,17 @@ namespace PartyCraft
             {
                 if (value.GetType().GetInterface("IEnumerable") != null)
                 {
+                    List<string> keysToRemove = new List<string>();
+                    foreach (var pair in ServerProperties)
+                    {
+                        if (pair.Key.StartsWith(key + "["))
+                            keysToRemove.Add(pair.Key);
+                    }
+                    foreach (var item in keysToRemove)
+                        Remove(item);
                     int i = 0;
                     foreach (var item in (IEnumerable)value)
-                        Set(key + "[" + i++ + "]", item);
+                        Set(key + "[" + i++ + "]", item); // TODO: key+=value, instead of key[i]=value
                 }
                 else
                 {
@@ -110,8 +117,8 @@ namespace PartyCraft
 
         public void Remove(string key)
         {
-            if (ServerProperties.ContainsKey(key.ToLower()))
-                ServerProperties.Remove(key.ToLower());
+            if (ServerProperties.ContainsKey(key))
+                ServerProperties.Remove(key);
         }
 
         public T Get<T>(string key)
