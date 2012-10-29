@@ -31,6 +31,14 @@ namespace PartyCraft.Commands
                 user.SendChat(ChatColors.Red + "Insufficient parameters. Use \"/help tell\" for more information.");
                 return;
             }
+            var client = server.MinecraftServer.GetClient(parameters[0]);
+            if (client == null)
+            {
+                user.SendChat(parameters[0] + " is not online.");
+                return;
+            }
+            var format = server.SettingsProvider.Get<string>("chat.private.format");
+            client.SendChat(string.Format(format, user.Username, client.Username, text));
         }
     }
 }

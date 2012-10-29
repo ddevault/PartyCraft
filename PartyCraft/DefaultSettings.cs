@@ -32,6 +32,7 @@ namespace PartyCraft
             Set("level.gamemode", GameMode.Survival);
             Set("server.maxplayers", 25);
             Set("chat.format", "<{0}> {1}");
+            Set("chat.private.format", ChatColors.Gray + "<{0}->{1}> {2}");
             Set("chat.self.format", "* {0} {1}");
             Set("chat.join", ChatColors.Yellow + "{0} has joined the game.");
             Set("chat.leave", ChatColors.Yellow + "{0} has left the game.");
