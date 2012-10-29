@@ -41,8 +41,27 @@ namespace PartyCraft
         {
             var groups = new List<string>(new[] { "server.default" });
             if (SettingsProvider.ContainsKey(user + ".groups"))
-                groups.AddRange(SettingsProvider.Get<List<string>>(user + "groups"));
+                groups.AddRange(SettingsProvider.Get<List<string>>(user + ".groups"));
             return groups;
+        }
+
+        public void SetUserGroups(string user, List<string> groups)
+        {
+            if (groups.Contains("server.default"))
+                groups.Remove("server.default");
+            SettingsProvider.Set(user + ".groups", groups);
+        }
+
+        /// <summary>
+        /// Sends a chat message to all members of a specified permission group.
+        /// </summary>
+        public void SendChatToGroup(string group, string text)
+        {
+            foreach (var client in MinecraftServer.Clients)
+            {
+                if (GetUserGroups(client.Username).Contains(group))
+                    client.SendChat(text);
+            }
         }
 
         #region Event Handlers

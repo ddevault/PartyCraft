@@ -11,7 +11,7 @@ namespace PartyCraft
         public ConsoleClient(MinecraftServer server) : base(null, server)
         {
             Username = "[CONSOLE]";
-            Tags["PartyCraft.UserGroups"] = new List<string>(new[] { "server.default", "server.op" });
+            Tags["PartyCraft.UserGroups"] = new List<string>(new[] { "server.default", "server.op", "server.console" });
         }
 
         public override void SendChat(string message)

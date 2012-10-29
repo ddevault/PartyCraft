@@ -46,7 +46,7 @@ namespace PartyCraft.Commands
             user.SendChat(ChatColors.DarkGreen + "Documentation for " + ChatColors.Bold + "/" + command.DefaultCommand + ":");
             foreach (var line in lines)
                 user.SendChat(ChatColors.DarkCyan + line);
-            if (!MayUseCommand(command, user))
+            if (!MayUseCommand(command, user, server))
                 user.SendChat(ChatColors.Red + "You are not permitted to use this command.");
         }
     }

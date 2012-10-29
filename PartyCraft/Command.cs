@@ -58,7 +58,7 @@ namespace PartyCraft
                 return;
             }
 
-            if (!MayUseCommand(command, user))
+            if (!MayUseCommand(command, user, server))
             {
                 user.SendChat(ChatColors.Red + "You do not have permission to use that command.");
                 return;
@@ -77,9 +77,11 @@ namespace PartyCraft
             return null;
         }
 
-        public static bool MayUseCommand(Command command, MinecraftClient user)
+        public static bool MayUseCommand(Command command, MinecraftClient user, Server server)
         {
-            var groups = (List<string>)user.Tags["PartyCraft.UserGroups"];
+            if (user is ConsoleClient)
+                return true;
+            var groups = server.GetUserGroups(user.Username);
             foreach (var group in groups)
             {
                 if (command.AllowedGroups.Contains(group))

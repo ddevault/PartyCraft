@@ -54,9 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Commands\DeopCommand.cs" />
+    <Compile Include="Commands\DifficultyCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
+    <Compile Include="Commands\OpCommand.cs" />
     <Compile Include="Commands\SeedCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Commands\TellCommand.cs" />

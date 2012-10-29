@@ -20,7 +20,7 @@ namespace PartyCraft.Commands
             {
                 return "Sends a private message to the specified player.\n" +
                     "Usage: /tell " + ChatColors.Italic + "player message\n" +
-                    "Example: /tell Notch Hello!";
+                    "Example: /tell notch Hello!";
             }
         }
 
