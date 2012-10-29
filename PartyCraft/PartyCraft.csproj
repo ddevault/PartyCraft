@@ -64,9 +64,11 @@
     <Compile Include="Commands\SayCommand.cs" />
     <Compile Include="Commands\SeedCommand.cs" />
     <Compile Include="Commands\SpawnPointCommand.cs" />
+    <Compile Include="Commands\SpeedCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Commands\TellCommand.cs" />
     <Compile Include="Commands\TimeCommand.cs" />
+    <Compile Include="Commands\TpCommand.cs" />
     <Compile Include="ConsoleClient.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="ISettingsProvider.cs" />

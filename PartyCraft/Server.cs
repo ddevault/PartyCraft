@@ -70,7 +70,15 @@ namespace PartyCraft
         {
             chatMessageEventArgs.Handled = true;
             if (chatMessageEventArgs.RawMessage.StartsWith("/"))
-                Command.ExecuteCommand(this, chatMessageEventArgs.Origin, chatMessageEventArgs.RawMessage);
+            {
+                if (chatMessageEventArgs.RawMessage.StartsWith("//"))
+                {
+                    MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.format"),
+                    chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage.Substring(1)));
+                }
+                else
+                    Command.ExecuteCommand(this, chatMessageEventArgs.Origin, chatMessageEventArgs.RawMessage);
+            }
             else
             {
                 MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.format"),
