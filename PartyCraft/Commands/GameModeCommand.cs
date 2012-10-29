@@ -63,7 +63,7 @@ namespace PartyCraft.Commands
             var client = server.MinecraftServer.GetClient(player);
             if (client == null)
             {
-                user.SendChat(ChatColors.Red + player + " is not online.");
+                user.SendChat(ChatColors.Red + player + " is not online."); // TODO: Set it anyway
                 return;
             }
             client.Entity.GameMode = gameMode;

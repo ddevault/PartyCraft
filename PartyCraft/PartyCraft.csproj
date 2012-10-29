@@ -63,6 +63,7 @@
     <Compile Include="Commands\OpCommand.cs" />
     <Compile Include="Commands\SayCommand.cs" />
     <Compile Include="Commands\SeedCommand.cs" />
+    <Compile Include="Commands\SpawnPointCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Commands\TellCommand.cs" />
     <Compile Include="ConsoleClient.cs" />
