@@ -43,7 +43,7 @@ namespace PartyCraft.Commands
                 return;
             }
             string[] lines = command.Documentation.Split('\n');
-            user.SendChat(ChatColors.DarkGreen + "Documentation for " + ChatColors.Bold + "/" + command.DefaultCommand + ":");
+            user.SendChat(ChatColors.DarkGreen + "Documentation for /" + command.DefaultCommand + ":");
             foreach (var line in lines)
                 user.SendChat(ChatColors.DarkCyan + line);
             if (!MayUseCommand(command, user, server))

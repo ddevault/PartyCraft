@@ -43,8 +43,8 @@ namespace PartyCraft.Commands
                 return;
             }
             groups.Remove("server.op");
-            server.SetUserGroups(parameters[0], groups);
             server.SendChatToGroup("server.op", ChatColors.Gray + user.Username + " removes " + parameters[0] + " from server.op group.");
+            server.SetUserGroups(parameters[0], groups);
         }
     }
 }

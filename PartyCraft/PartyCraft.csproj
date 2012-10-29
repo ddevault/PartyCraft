@@ -56,6 +56,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="Commands\DeopCommand.cs" />
     <Compile Include="Commands\DifficultyCommand.cs" />
+    <Compile Include="Commands\GameModeCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
