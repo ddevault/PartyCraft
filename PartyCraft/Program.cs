@@ -41,7 +41,7 @@ namespace PartyCraft
                 else
                 {
                     // TODO: Create a better settings provider than vanilla
-                    SettingsProvider = new VanillaSettingsProvider();
+                    SettingsProvider = new VanillaSettingsProvider("server.properties");
                     SetUpDefaultPermissions(SettingsProvider);
                 }
             }

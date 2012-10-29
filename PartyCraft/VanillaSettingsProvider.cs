@@ -44,12 +44,20 @@ namespace PartyCraft
             keyLookup.Add("level.generator.generatestructures", "generate-structures");
             keyLookup.Add("server.viewdistance", "view-distance");
             keyLookup.Add("server.motd", "motd");
+            foreach (var key in keyLookup) // Set default keys
+            {
+                if (DefaultSettings.ContainsKey(key.Key))
+                    Set(key.Key, Get<string>(key.Key)); // This works because it goes to the default setting provider when it can't find a key
+            }
         }
 
         public VanillaSettingsProvider(string file) : this()
         {
             settingsFile = file;
-            Load(File.Open(file, FileMode.Open));
+            if (File.Exists(file))
+                Load(File.Open(file, FileMode.Open));
+            else
+                Save();
         }
 
         public void Load(Stream file)
@@ -74,6 +82,11 @@ namespace PartyCraft
 
         public void Set(string key, object value)
         {
+            if (value == null)
+            {
+                Remove(key);
+                return;
+            }
             if (value.GetType().GetInterface("IConvertible") == null)
             {
                 if (value.GetType().GetInterface("IEnumerable") != null)
@@ -93,6 +106,12 @@ namespace PartyCraft
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(key));
             Save();
+        }
+
+        public void Remove(string key)
+        {
+            if (ServerProperties.ContainsKey(key.ToLower()))
+                ServerProperties.Remove(key.ToLower());
         }
 
         public T Get<T>(string key)
@@ -152,8 +171,8 @@ namespace PartyCraft
             if (settingsFile == null)
                 return;
             var writer = new StreamWriter(settingsFile);
-            writer.WriteLine("#PartyCraft server properties");
-            writer.WriteLine("#" + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString());
+            writer.WriteLine("# PartyCraft server properties");
+            writer.WriteLine("# Last modified " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString());
             foreach (var kvp in ServerProperties)
             {
                 if (keyLookup.ContainsKey(kvp.Key))
