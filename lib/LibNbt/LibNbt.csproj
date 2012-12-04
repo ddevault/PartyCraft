@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4488498D-976D-4DA3-BF72-109531AF0488}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>LibNbt</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>LibNbt</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Exceptions\NbtQueryException.cs" />
+    <Compile Include="NbtFile.cs" />
+    <Compile Include="Queries\TagQuery.cs" />
+    <Compile Include="Queries\TagQueryToken.cs" />
+    <Compile Include="Tags\INbtTagList.cs" />
+    <Compile Include="Tags\INbtTagValue.cs" />
+    <Compile Include="Tags\NbtByte.cs" />
+    <Compile Include="Tags\NbtByteArray.cs" />
+    <Compile Include="Tags\NbtCompound.cs" />
+    <Compile Include="Tags\NbtDouble.cs" />
+    <Compile Include="Tags\NbtFloat.cs" />
+    <Compile Include="Tags\NbtInt.cs" />
+    <Compile Include="Tags\NbtIntArray.cs" />
+    <Compile Include="Tags\NbtList.cs" />
+    <Compile Include="Tags\NbtLong.cs" />
+    <Compile Include="Tags\NbtShort.cs" />
+    <Compile Include="Tags\NbtString.cs" />
+    <Compile Include="Tags\NbtTag.cs" />
+    <Compile Include="Tags\NbtTagType.cs" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>
