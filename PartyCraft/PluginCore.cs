@@ -124,9 +124,7 @@ namespace PartyCraft
                             // a separate check as this is a common problem. The first time I forgot I spend a good 5 
                             // minutes before I figured it out.
                             var privatePluginConstructor = pluginType.GetConstructors(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                                .Where(_con => _con.GetParameters().Count() == 1)
-                                .Where(_con => _con.GetParameters()[0].ParameterType == typeof(PluginCore))
-                                .SingleOrDefault();
+                                                                     .Where(_con => _con.GetParameters().Count() == 1).SingleOrDefault(_con => _con.GetParameters()[0].ParameterType == typeof(PluginCore));
 
                             if (privatePluginConstructor != null)
                             {
@@ -144,7 +142,7 @@ namespace PartyCraft
                         IPluginSystem plugin = pluginConstructor.Invoke(new Object[] { this }) as IPluginSystem;
 
                         // Now check if the plugin was already loaded (let's prevent duplicate plugins, plugins are already trouble enough)
-                        if (hosts.Any(loaded_plugin => loaded_plugin.Plugin.GetName() == plugin.GetName()) || plugins.Any(loaded_plugin => loaded_plugin.GetName() == plugin.GetName()))
+                        if (hosts.Any(loadedPlugin => loadedPlugin.Plugin.GetName() == plugin.GetName()) || plugins.Any(loaded_plugin => loaded_plugin.GetName() == plugin.GetName()))
                         {
                             // The plugin already exists. Fix it.
                             throw new Exception(String.Format("The plugin named '{0}' is already loaded", pluginName));
@@ -188,16 +186,7 @@ namespace PartyCraft
         /// <returns>A list of plugin types</returns>
         public List<T> GetPlugins<T>() where T : class, IPluginSystem
         {
-            List<T> result = new List<T>();
-            foreach (var item in hosts)
-            {
-                var convertedPlugin = item.Plugin as T;
-                if (convertedPlugin != null)
-                {
-                    result.Add(convertedPlugin);
-                }
-            }
-            return result;
+            return hosts.Select(item => item.Plugin).OfType<T> ().ToList ();
         }
 
         /// <summary>

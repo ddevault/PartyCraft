@@ -21,6 +21,8 @@ namespace PartyCraft
         /// </summary>
         public static ISettingsProvider SettingsProvider = null;
 
+        private static string pluginDirectory = "plugins";
+
         public static ConsoleClient ConsoleClient { get; set; }
 
         public static void Main(string[] args)
@@ -30,10 +32,11 @@ namespace PartyCraft
             using (var PluginSystem = new PluginCore(config))
             {
                 string currentAssemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                PluginSystem.LoadPlugins(currentAssemblyPath + "/plugins");
-                foreach (var OnLoad in PluginSystem.GetPlugins<IOnLoad>())
+
+                PluginSystem.LoadPlugins(Path.Combine(currentAssemblyPath, pluginDirectory));
+                foreach (var onLoad in PluginSystem.GetPlugins<IOnLoad>())
                 {
-                    OnLoad.OnLoad();
+                    onLoad.OnLoad();
                 }
 
             }
@@ -86,8 +89,8 @@ namespace PartyCraft
 
         private static void CheckEnviornment()
         {
-            if (!Directory.Exists("plugins"))
-                Directory.CreateDirectory("plugins");
+            if (!Directory.Exists(pluginDirectory))
+                Directory.CreateDirectory(pluginDirectory);
         }
     }
 }
