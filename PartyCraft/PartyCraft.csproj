@@ -61,6 +61,7 @@
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
     <Compile Include="Commands\OpCommand.cs" />
+    <Compile Include="Commands\Plugins.cs" />
     <Compile Include="Commands\SayCommand.cs" />
     <Compile Include="Commands\SeedCommand.cs" />
     <Compile Include="Commands\SpawnPointCommand.cs" />
@@ -70,11 +71,18 @@
     <Compile Include="Commands\TimeCommand.cs" />
     <Compile Include="Commands\TpCommand.cs" />
     <Compile Include="ConsoleClient.cs" />
+    <Compile Include="IOnLoad.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="ISettingsProvider.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="PluginCore.cs" />
+    <Compile Include="PluginCoreConfiguration.cs" />
+    <Compile Include="PluginHost.cs" />
+    <Compile Include="IPluginSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="TextLogger.cs" />
     <Compile Include="VanillaSettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
