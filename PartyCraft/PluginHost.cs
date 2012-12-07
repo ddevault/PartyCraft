@@ -1,10 +1,7 @@
-﻿
-namespace PluginSystemCS
+﻿using System;
+
+namespace PartyCraft
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// The plugin hoster
@@ -48,7 +45,7 @@ namespace PluginSystemCS
         /// </summary>
         internal void Unload()
         {
-			this.plugin.Dispose();
+            this.plugin.Dispose();
         }
     }
 }

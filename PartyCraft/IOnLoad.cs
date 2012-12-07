@@ -6,7 +6,7 @@ using PartyCraft;
 using Craft.Net;
 using Craft.Net.Data;
 using Craft.Net.Server;
-namespace PluginSystemCS
+namespace PartyCraft
 {
     public interface IOnLoad : IPluginSystem
     {

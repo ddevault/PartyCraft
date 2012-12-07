@@ -26,12 +26,12 @@ namespace PartyCraft
         public static void Main(string[] args)
         {
             CheckEnviornment();
-            PluginSystemCS.PluginCoreConfiguration config = new PluginSystemCS.PluginCoreConfiguration();
-            using (var PluginSystem = new PluginSystemCS.PluginCore(config))
+            PluginCoreConfiguration config = new PluginCoreConfiguration();
+            using (var PluginSystem = new PluginCore(config))
             {
                 string currentAssemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 PluginSystem.LoadPlugins(currentAssemblyPath + "/plugins");
-                foreach (var OnLoad in PluginSystem.GetPlugins<PluginSystemCS.IOnLoad>())
+                foreach (var OnLoad in PluginSystem.GetPlugins<IOnLoad>())
                 {
                     OnLoad.OnLoad();
                 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PluginSystemCS
+namespace PartyCraft
 {
     /// <summary>
     /// The interface for a logger

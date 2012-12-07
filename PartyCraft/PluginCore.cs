@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace PluginSystemCS
+namespace PartyCraft
 {
     /// <summary>
     /// All plugins are managed by the core

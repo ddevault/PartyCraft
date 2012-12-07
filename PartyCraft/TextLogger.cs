@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PluginSystemCS
+namespace PartyCraft
 {
     public class TextLogger : ILogger, IDisposable
     {

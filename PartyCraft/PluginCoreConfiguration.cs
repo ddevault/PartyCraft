@@ -1,4 +1,4 @@
-﻿namespace PluginSystemCS
+﻿namespace PartyCraft
 {
     public struct PluginCoreConfiguration
     {
