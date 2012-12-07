@@ -23,10 +23,10 @@ namespace PartyCraft.Commands
         {
             get 
             {
-                return "Sets the movement speed for a given player.\n" +
-                    "Usage: /speed " + ChatColors.Italic + "[player] speed\n" +
-                    "If no player is specified, your own speed is set.\n" +
-                    "Use /speed reset to reset your speed to default.\n" +
+                return "Sets the movement speed for a given player." + Enviroment.NewLine +
+                    "Usage: /speed " + ChatColors.Italic + "[player] speed" + Enviroment.NewLine +
+                    "If no player is specified, your own speed is set." + Enviroment.NewLine +
+                    "Use /speed reset to reset your speed to default.\n" + Enviroment.NewLine +
                     "Example: /speed notch 100";
             }
         }
