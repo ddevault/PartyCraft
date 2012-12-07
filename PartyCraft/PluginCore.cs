@@ -8,14 +8,14 @@ namespace PluginSystemCS
     /// <summary>
     /// All plugins are managed by the core
     /// </summary>
-    public class PluginCore : IDisposable, Logger
+    public class PluginCore : IDisposable, ILogger
     {
         /// <summary>
         /// A list of plugin hosts
         /// </summary>
         private List<PluginHost> hosts = new List<PluginHost>();
 
-        private Logger logger = new TextLogger("log.txt");
+        private ILogger logger = new TextLogger("log.txt");
 
         /// <summary>
         /// Tracks the domains in which the plugins are runned
@@ -52,7 +52,7 @@ namespace PluginSystemCS
                 Log("Trying to load '{0}' as plugin", pluginFilename);
 
                 // This is where we will store all the IPlugins available in the DLL
-                List<PluginSystem> plugins = new List<PluginSystem>();                                        
+                List<IPluginSystem> plugins = new List<IPluginSystem>();                                        
                 
                 // Later we will load the plugin using pluginName which is without the DLL
                 string pluginName = System.IO.Path.GetFileNameWithoutExtension(pluginFilename);
@@ -83,7 +83,7 @@ namespace PluginSystemCS
                     }
 
                     // Find all plugin
-                    pluginTypes = pluginAssembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(PluginSystem))).ToList();
+                    pluginTypes = pluginAssembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IPluginSystem))).ToList();
 
                     // Check if the assembly had any plugins 
                     // (for example we might have an extra dll that is not a plugin in that folder)
@@ -142,7 +142,7 @@ namespace PluginSystemCS
                         }
 
                         // Now lets invoke the constructor and instantiate an IPlugin
-                        PluginSystem plugin = pluginConstructor.Invoke(new Object[] { this }) as PluginSystem;
+                        IPluginSystem plugin = pluginConstructor.Invoke(new Object[] { this }) as IPluginSystem;
 
                         // Now check if the plugin was already loaded (let's prevent duplicate plugins, plugins are already trouble enough)
                         if (hosts.Any(loaded_plugin => loaded_plugin.Plugin.GetName() == plugin.GetName()) || plugins.Any(loaded_plugin => loaded_plugin.GetName() == plugin.GetName()))
@@ -187,7 +187,7 @@ namespace PluginSystemCS
         /// </summary>
         /// <typeparam name="T">A plugin type</typeparam>
         /// <returns>A list of plugin types</returns>
-        public List<T> GetPlugins<T>() where T : class, PluginSystem
+        public List<T> GetPlugins<T>() where T : class, IPluginSystem
         {
             List<T> result = new List<T>();
             foreach (var item in hosts)

@@ -12,7 +12,7 @@ namespace PluginSystemCS
     internal class PluginHost
     {
         private PluginCore pluginCore;
-        private PluginSystem plugin;
+        private IPluginSystem plugin;
         private AppDomain pluginDomain;
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace PluginSystemCS
         /// <param name="pluginCore">The plugin core.</param>
         /// <param name="plugin">The plugin.</param>
         /// <param name="pluginDomain">The plugin domain.</param>
-        public PluginHost(PluginCore pluginCore, PluginSystem plugin, AppDomain pluginDomain)
+        public PluginHost(PluginCore pluginCore, IPluginSystem plugin, AppDomain pluginDomain)
         {
             this.pluginCore = pluginCore;
             this.plugin = plugin;
@@ -35,7 +35,7 @@ namespace PluginSystemCS
         /// <value>
         /// The plugin.
         /// </value>
-        public PluginSystem Plugin
+        public IPluginSystem Plugin
         {
             get
             {

@@ -31,7 +31,7 @@ namespace PartyCraft
             {
                 string currentAssemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 PluginSystem.LoadPlugins(currentAssemblyPath + "/plugins");
-                foreach (var OnLoad in PluginSystem.GetPlugins<PluginSystemCS.OnLoad>())
+                foreach (var OnLoad in PluginSystem.GetPlugins<PluginSystemCS.IOnLoad>())
                 {
                     OnLoad.OnLoad();
                 }

@@ -8,7 +8,7 @@ using Craft.Net.Data;
 using Craft.Net.Server;
 namespace PluginSystemCS
 {
-    public interface OnLoad : PluginSystem
+    public interface IOnLoad : IPluginSystem
     {
         void OnLoad();
     }

@@ -8,7 +8,7 @@ namespace PluginSystemCS
     /// <summary>
     /// The interface for a logger
     /// </summary>
-    public interface Logger
+    public interface ILogger
     {
         /// <summary>
         /// Begins the sub.

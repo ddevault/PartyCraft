@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PluginSystemCS
 {
-    public class TextLogger : Logger, IDisposable
+    public class TextLogger : ILogger, IDisposable
     {
         int level = 0;
         private String m_Filename;

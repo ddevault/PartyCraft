@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PluginSystemCS
 {
-    public interface PluginSystem : IDisposable
+    public interface IPluginSystem : IDisposable
     {
         /// <summary>
         /// Gets the name.
