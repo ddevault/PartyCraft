@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Policy;
 
 namespace PartyCraft
 {
@@ -41,12 +44,10 @@ namespace PartyCraft
 
             // First check if the core isn't already disposed
             if (this.IsDisposed)
-            {
                 throw new ObjectDisposedException("The object has already been disposed");
-            }
 
             // Get all Dll's in the folder, we only care about dlls although exe could also be used
-            foreach (var pluginFilename in System.IO.Directory.GetFiles(folder, "*.dll"))
+            foreach (var pluginFilename in Directory.GetFiles(folder, "*.dll"))
             {
                 Log("Trying to load '{0}' as plugin", pluginFilename);
 
@@ -54,14 +55,13 @@ namespace PartyCraft
                 List<IPluginSystem> plugins = new List<IPluginSystem>();                                        
                 
                 // Later we will load the plugin using pluginName which is without the DLL
-                string pluginName = System.IO.Path.GetFileNameWithoutExtension(pluginFilename);
+                string pluginName = Path.GetFileNameWithoutExtension(pluginFilename);
                 
                 // Creating the domain. Important is that we define the folder using AppDomainSetup. 
                 // It's important that we load the plugins in another application domain as we should see it as
                 // an extension and not part of the current application.
-                System.Security.Policy.Evidence evidence = new System.Security.Policy.Evidence();
-                AppDomainSetup appDomainSetup = new AppDomainSetup();
-                appDomainSetup.ApplicationBase = folder;
+                var evidence = new Evidence();
+                var appDomainSetup = new AppDomainSetup {ApplicationBase = folder};
                 AppDomain pluginDomain = AppDomain.CreateDomain("Plugin: " + pluginFilename, evidence, appDomainSetup);
 
                 // This list will contain all the class that have an IPlugin interface
@@ -70,7 +70,7 @@ namespace PartyCraft
                 try
                 {
                     // Loading the assembly
-                    System.Reflection.Assembly pluginAssembly = pluginDomain.Load(pluginName);
+                    Assembly pluginAssembly = pluginDomain.Load(pluginName);
 
                     // If the plugin folder is the same as that of that of executable, there is a good chance 
                     // that we find the assembly that manages the plugins. We should ignore that one.
@@ -82,7 +82,7 @@ namespace PartyCraft
                     }
 
                     // Find all plugin
-                    pluginTypes = pluginAssembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IPluginSystem))).ToList();
+                    pluginTypes = pluginAssembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IPluginSystem)) && !t.IsAbstract).ToList();
 
                     // Check if the assembly had any plugins 
                     // (for example we might have an extra dll that is not a plugin in that folder)
@@ -114,7 +114,7 @@ namespace PartyCraft
                     foreach (Type pluginType in pluginTypes)
                     {
                         // Getting the constructor which has as argument the PluginCore
-                        System.Reflection.ConstructorInfo pluginConstructor = pluginType.GetConstructor(new Type[] { typeof(PluginCore) });
+                        ConstructorInfo pluginConstructor = pluginType.GetConstructor(new Type[] { typeof(PluginCore) });
 
                         // If the constructor doesn't exist, we have an IPlugin object who doesn't match the requirement. 
                         // Let's find out the reason why.
@@ -124,25 +124,23 @@ namespace PartyCraft
                             // a separate check as this is a common problem. The first time I forgot I spend a good 5 
                             // minutes before I figured it out.
                             var privatePluginConstructor = pluginType.GetConstructors(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                                                                     .Where(_con => _con.GetParameters().Count() == 1).SingleOrDefault(_con => _con.GetParameters()[0].ParameterType == typeof(PluginCore));
+                                                                        .Where(_con => _con.GetParameters().Count() == 1)
+                                                                        .SingleOrDefault(_con => _con.GetParameters()[0].ParameterType == typeof(PluginCore));
 
                             if (privatePluginConstructor != null)
                             {
                                 // There is a private constructor
                                 throw new Exception(String.Format("The plugin '{0}' defined in '{1}.dll' has a private constructor. Please make the constructor public.", pluginType.FullName, pluginName)); 
                             }
-                            else
-                            {
-                                // There is no private constructor (and we ruled out a public constructor). Only option is that is not correctly defined
-                                throw new Exception(String.Format("The plugin '{0}' defined in '{1}.dll' has no constructor that accepts PluginCore as only parameter and can thus not be initialized. Please define the constructor that matches those requirements", pluginType.FullName, pluginName));
-                            }
+                            // There is no private constructor (and we ruled out a public constructor). Only option is that is not correctly defined
+                            throw new Exception(String.Format("The plugin '{0}' defined in '{1}.dll' has no constructor that accepts PluginCore as only parameter and can thus not be initialized. Please define the constructor that matches those requirements", pluginType.FullName, pluginName));
                         }
 
                         // Now lets invoke the constructor and instantiate an IPlugin
                         IPluginSystem plugin = pluginConstructor.Invoke(new Object[] { this }) as IPluginSystem;
 
                         // Now check if the plugin was already loaded (let's prevent duplicate plugins, plugins are already trouble enough)
-                        if (hosts.Any(loadedPlugin => loadedPlugin.Plugin.GetName() == plugin.GetName()) || plugins.Any(loaded_plugin => loaded_plugin.GetName() == plugin.GetName()))
+                        if (hosts.Any(loadedPlugin => loadedPlugin.Plugin.GetType() == plugin.GetType()) || plugins.Any(loadedPlugin => loadedPlugin.GetType() == plugin.GetType()))
                         {
                             // The plugin already exists. Fix it.
                             throw new Exception(String.Format("The plugin named '{0}' is already loaded", pluginName));
@@ -156,9 +154,7 @@ namespace PartyCraft
                     // At this point all plugins from the assembly have been loaded (if one plugin failed, the entire assembly failed).
                     // Now let's store it in a host.
                     foreach (var plugin in plugins)
-                    {
                         hosts.Add(new PluginHost(this, plugin, pluginDomain));
-                    }
 
                     // Register plugin domain (to ensure it's correctly unloaded)
                     pluginDomains.Add(pluginDomain);
@@ -167,9 +163,7 @@ namespace PartyCraft
                 {
                     // Couldn't load the entire assembly. So we will unload all previously loaded plugins
                     foreach (var plugin in plugins)
-                    {
                         plugin.Dispose();
-                    }
                     // Unload the domain
                     AppDomain.Unload(pluginDomain);
                     Log("Unable to load all plugins from the assembly: {0}", ex.ToString());
@@ -196,15 +190,11 @@ namespace PartyCraft
         {
             if (this.IsDisposed) throw new ObjectDisposedException("The object has already been disposed");
             foreach (var host in hosts)
-            {
                 host.Unload();
-            }
             hosts.Clear();
 
             foreach (var domain in pluginDomains)
-            {
                 AppDomain.Unload(domain);
-            }
             pluginDomains.Clear();
         }
 
@@ -255,7 +245,7 @@ namespace PartyCraft
             // operations, as well as in your methods that use the resource.
             try
             {
-                if( !this.IsDisposed )
+                if( !IsDisposed )
                 {
                     if( isDisposing )
                     {
@@ -265,9 +255,7 @@ namespace PartyCraft
                         // TODO Release all managed resources here
                         IDisposable diposeableLogger = logger as IDisposable;
                         if(diposeableLogger != null)
-                        {
                             diposeableLogger.Dispose();
-                        }
                     }
         
                     // TODO Release all unmanaged resources here

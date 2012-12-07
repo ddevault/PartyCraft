@@ -8,8 +8,7 @@ namespace PartyCraft
     public class TextLogger : ILogger, IDisposable
     {
         int level = 0;
-        private String m_Filename;
-        public String Filename { get { return m_Filename; } }
+        public string Filename { get; private set; }
         public System.IO.TextWriter m_Writer;
 
         ~TextLogger()
@@ -22,7 +21,7 @@ namespace PartyCraft
         }
         public TextLogger(String filename, Boolean append)
         {
-            m_Filename = filename;
+            Filename = filename;
             m_Writer = new System.IO.StreamWriter(filename, append);
         }
         #region ILogger Members
@@ -48,7 +47,7 @@ namespace PartyCraft
         public void Log(string message)
         {
             if (isDisposed) throw new ObjectDisposedException("The object has already been disposed");
-            String log_text = "[" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss") + "]";
+            String log_text = "[" + DateTime.Now.ToString() + "]";
             int cur_level = 0;
             while (cur_level < (level + 1))
             {
