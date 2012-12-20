@@ -1,6 +1,6 @@
 # PartyCraft
 
-PartyCraft is a 1.4.5 Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
+PartyCraft is a 1.4.6 Minecraft server based on [Craft.Net](https://github.com/SirCmpwn/Craft.Net).
 
 ## Features
 
