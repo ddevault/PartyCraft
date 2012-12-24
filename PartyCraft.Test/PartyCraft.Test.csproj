@@ -56,10 +56,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\externals\Craft.Net\Craft.Net.Data\Craft.Net.Data.csproj">
-      <Project>{30C3F936-8D95-4113-BA48-8B798B056309}</Project>
-      <Name>Craft.Net.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PartyCraft\PartyCraft.csproj">
       <Project>{D775A992-A192-44C3-B745-C64041947BD4}</Project>
       <Name>PartyCraft</Name>
