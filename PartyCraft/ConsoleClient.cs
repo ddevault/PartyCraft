@@ -9,7 +9,7 @@ namespace PartyCraft
 {
     public class ConsoleClient : MinecraftClient
     {
-        public ConsoleClient(MinecraftServer server) : base(new TcpClient(), server)
+        public ConsoleClient(MinecraftServer server) : base()
         {
             Username = "[CONSOLE]";
             Tags["PartyCraft.UserGroups"] = new List<string>(new[] { "server.default", "server.op", "server.console" });
