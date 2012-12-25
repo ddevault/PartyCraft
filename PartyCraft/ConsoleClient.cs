@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using Craft.Net.Server;
 
@@ -8,7 +9,7 @@ namespace PartyCraft
 {
     public class ConsoleClient : MinecraftClient
     {
-        public ConsoleClient(MinecraftServer server) : base(null, server)
+        public ConsoleClient(MinecraftServer server) : base(new TcpClient(), server)
         {
             Username = "[CONSOLE]";
             Tags["PartyCraft.UserGroups"] = new List<string>(new[] { "server.default", "server.op", "server.console" });

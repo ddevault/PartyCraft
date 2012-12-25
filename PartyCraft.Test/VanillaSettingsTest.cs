@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Craft.Net;
 using NUnit.Framework;
-using Craft.Net.Data;
 
 namespace PartyCraft.Test
 {

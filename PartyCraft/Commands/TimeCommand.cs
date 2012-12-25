@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using Craft.Net.Data;
 using Craft.Net.Server;
-using Craft.Net.Server.Packets;
-
 namespace PartyCraft.Commands
 {
     public class TimeCommand : Command
@@ -89,9 +87,7 @@ namespace PartyCraft.Commands
 
             time = time.Value % 24000;
             
-            server.MinecraftServer.GetLevel(user).Time = time.Value;
-            foreach (var client in server.MinecraftServer.EntityManager.GetClientsInWorld(user.World))
-                client.SendPacket(new TimeUpdatePacket(time.Value));
+            server.MinecraftServer.GetLevel(user).Time = time.Value; // TODO: Add event listener in Craft.Net
             server.SendChatToGroup("server.op", ChatColors.Gray + user.Username + " set the time in " + user.World.Name +
                 " to " + time.Value + ", or " + LongToTimeString(time.Value));
         }

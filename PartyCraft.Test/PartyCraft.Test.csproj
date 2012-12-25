@@ -56,6 +56,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Craft.Net\Craft.Net\Craft.Net.csproj">
+      <Project>{c3bbab7e-606f-420e-9461-c8cfaec2476b}</Project>
+      <Name>Craft.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PartyCraft\PartyCraft.csproj">
       <Project>{D775A992-A192-44C3-B745-C64041947BD4}</Project>
       <Name>PartyCraft</Name>
