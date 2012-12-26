@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Craft.Net.Data", "..\Craft.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Craft.Net.Server", "..\Craft.Net\Craft.Net.Server\Craft.Net.Server.csproj", "{E00C6FF6-BCD8-44E0-BCD8-5F1BDF201617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNbt", "..\Craft.Net\externals\libnbt2012\LibNbt\LibNbt.csproj", "{4488498D-976D-4DA3-BF72-109531AF0488}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fNbt", "..\Craft.Net\externals\fNbt\fNbt\fNbt.csproj", "{4488498d-976d-4da3-bf72-109531af0488}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
