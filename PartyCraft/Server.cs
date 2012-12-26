@@ -7,6 +7,7 @@ using Craft.Net.Data.Generation;
 using Craft.Net.Server;
 using System.Net;
 using Craft.Net.Server.Events;
+using Craft.Net;
 
 namespace PartyCraft
 {
@@ -20,6 +21,8 @@ namespace PartyCraft
             SettingsProvider = settingsProvider;
             var port = SettingsProvider.Get<int>("server.port");
             MinecraftServer = new MinecraftServer(new IPEndPoint(IPAddress.Any, port));
+            MinecraftServer.Settings.MotD = SettingsProvider.Get<string>("server.motd");
+            MinecraftServer.Settings.OnlineMode = SettingsProvider.Get<bool>("server.onlinemode");
             MinecraftServer.ChatMessage += MinecraftServerOnChatMessage;
             MinecraftServer.PlayerLoggedIn += MinecraftServerOnPlayerLoggedIn;
             MinecraftServer.PlayerLoggedOut += MinecraftServerOnPlayerLoggedOut;
@@ -29,6 +32,7 @@ namespace PartyCraft
         {
             MinecraftServer.AddLevel(new Level(Level.GetGenerator(SettingsProvider.Get<string>("level.type")), 
                 SettingsProvider.Get<string>("level.name")));
+            MinecraftServer.DefaultLevel.GameMode = SettingsProvider.Get<GameMode>("level.gamemode");
             MinecraftServer.Start();
         }
 
