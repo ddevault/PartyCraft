@@ -15,6 +15,19 @@ PartyCraft, please do not hesitate to [create an issue](https://github.com/SirCm
 Keep in mind that most of PartyCraft's features actually come from
 [Craft.Net](https://github.com/SirCmpwn/Craft.Net) before you submit your problems.
 
+## Snapshot Support
+
+PartyCraft supports most Minecraft development snapshots through Craft.Net. If you want support for the
+latest snapshot, run the following commands on your git repository:
+
+    cd externals/Craft.Net
+    git pull origin snapshot
+    git checkout snapshot
+    cd ../..
+
+You'll now be using the snapshot branch of Craft.Net, with support for more recent pre-release versions
+of Minecraft.
+
 ## Usage
 
 On Linux and Mac, you will need to install [Mono](https://github.com/mono/mono) first.
