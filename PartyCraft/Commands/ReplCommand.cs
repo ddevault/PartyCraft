@@ -59,6 +59,7 @@ namespace PartyCraft.Commands
                 {
                     if (Evaluators.ContainsKey(e.Username))
                         Evaluators.Remove(e.Username);
+                    ReplContext.Self = null;
                 };
             Evaluators[user.Username] = new Evaluator(new CompilerContext(new CompilerSettings(), new MinecraftReportPrinter(user)));
             Evaluators[user.Username].ReferenceAssembly(typeof(Server).Assembly);
@@ -89,6 +90,7 @@ namespace PartyCraft.Commands
             if (ReplContext.LongExpression && e.RawMessage != ">>>")
             {
                 ReplContext.WorkingExpression += e.RawMessage;
+                e.Origin.SendChat(ChatColors.Yellow + e.RawMessage);
                 return;
             }
             if (e.RawMessage == "<<<")
@@ -111,12 +113,12 @@ namespace PartyCraft.Commands
                 Evaluators[e.Origin.Username].Evaluate(ReplContext.WorkingExpression, out result, out result_set);
                 if (result_set)
                     e.Origin.SendChat(result.ToString());
-                ReplContext.WorkingExpression = string.Empty;
             }
             catch (Exception ex)
             {
                 // ...will be sent to the user by Mono.CSharp...
             }
+            ReplContext.WorkingExpression = string.Empty;
         }
 
         class MinecraftReportPrinter : ReportPrinter
