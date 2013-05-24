@@ -66,6 +66,7 @@
     <Compile Include="Commands\DeopCommand.cs" />
     <Compile Include="Commands\DifficultyCommand.cs" />
     <Compile Include="Commands\GameModeCommand.cs" />
+    <Compile Include="Commands\GenScriptCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\MeCommand.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Commands\TpCommand.cs" />
     <Compile Include="ConsoleClient.cs" />
     <Compile Include="DefaultSettings.cs" />
-    <Compile Include="DynamicPluginBase.cs" />
+    <Compile Include="ScriptPluginBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />

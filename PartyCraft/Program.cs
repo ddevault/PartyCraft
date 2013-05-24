@@ -75,14 +75,16 @@ namespace PartyCraft
         {
             // TODO: Make this better
             // Dynamic plugins
-            var plugins = Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csx");
             var eval = new Evaluator(new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter()));
             eval.ReferenceAssembly(typeof(Plugin).Assembly);
+            eval.ReferenceAssembly(typeof(Command).Assembly);
             eval.ReferenceAssembly(typeof(MinecraftServer).Assembly);
             eval.InteractiveBaseClass = typeof(ScriptPluginBase);
             ScriptPluginBase.Server = server;
-            foreach (var plugin in plugins)
+            foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csx"))
                 eval.Run(File.ReadAllText(plugin));
+            foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csc"))
+                eval.Compile(File.ReadAllText(plugin));
 
             var types = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetTypes())
                     .Aggregate((a, b) => a.Concat(b).ToArray()).Where(t => !t.IsAbstract && typeof(Plugin).IsAssignableFrom(t));
