@@ -85,7 +85,7 @@ namespace PartyCraft
                 eval.Run(File.ReadAllText(plugin));
             foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csc"))
                 eval.Compile(File.ReadAllText(plugin));
-
+            // Load plugins
             var types = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetTypes())
                     .Aggregate((a, b) => a.Concat(b).ToArray()).Where(t => !t.IsAbstract && typeof(Plugin).IsAssignableFrom(t));
             foreach (var type in types)

@@ -16,6 +16,7 @@ namespace PartyCraft
     {
         public MinecraftServer MinecraftServer { get; set; }
         public ISettingsProvider SettingsProvider { get; set; }
+        public event EventHandler<ChatMessageEventArgs> ChatMessage;
 
         public Server(ISettingsProvider settingsProvider)
         {
@@ -73,6 +74,16 @@ namespace PartyCraft
 
         private void MinecraftServerOnChatMessage(object sender, ChatMessageEventArgs chatMessageEventArgs)
         {
+            var internalArgs = new ChatMessageEventArgs(chatMessageEventArgs.Origin, chatMessageEventArgs.RawMessage);
+            if (ChatMessage != null)
+            {
+                ChatMessage(this, internalArgs);
+                if (internalArgs.Handled)
+                {
+                    chatMessageEventArgs.Handled = true;
+                    return;
+                }
+            }
             chatMessageEventArgs.Handled = true;
             if (chatMessageEventArgs.RawMessage.StartsWith("/"))
             {
