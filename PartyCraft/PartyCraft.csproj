@@ -80,6 +80,7 @@
     <Compile Include="Commands\TpCommand.cs" />
     <Compile Include="ConsoleClient.cs" />
     <Compile Include="DefaultSettings.cs" />
+    <Compile Include="DynamicPluginBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />

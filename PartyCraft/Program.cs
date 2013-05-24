@@ -75,12 +75,14 @@ namespace PartyCraft
         {
             // TODO: Make this better
             // Dynamic plugins
-            var plugins = Directory.GetFiles(Path.Combine("plugins", "dynamic"), "*.csx");
+            var plugins = Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csx");
             var eval = new Evaluator(new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter()));
             eval.ReferenceAssembly(typeof(Plugin).Assembly);
             eval.ReferenceAssembly(typeof(MinecraftServer).Assembly);
+            eval.InteractiveBaseClass = typeof(ScriptPluginBase);
+            ScriptPluginBase.Server = server;
             foreach (var plugin in plugins)
-                eval.Compile(File.ReadAllText(plugin));
+                eval.Run(File.ReadAllText(plugin));
 
             var types = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetTypes())
                     .Aggregate((a, b) => a.Concat(b).ToArray()).Where(t => !t.IsAbstract && typeof(Plugin).IsAssignableFrom(t));
@@ -101,8 +103,8 @@ namespace PartyCraft
         {
             if (!Directory.Exists("plugins"))
                 Directory.CreateDirectory("plugins");
-            if (!Directory.Exists(Path.Combine("plugins", "dynamic")))
-                Directory.CreateDirectory(Path.Combine("plugins", "dynamic"));
+            if (!Directory.Exists(Path.Combine("plugins", "scripts")))
+                Directory.CreateDirectory(Path.Combine("plugins", "scripts"));
         }
     }
 }
