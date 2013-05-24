@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Text;
 using Craft.Net.Server;
 using System.IO;
+using PartyCraft.API;
+using Mono.CSharp;
 
 namespace PartyCraft
 {
@@ -26,7 +28,7 @@ namespace PartyCraft
         public static void Main(string[] args)
         {
             CheckEnviornment();
-            // TODO: Load plugins
+            // TODO: Load certain plugins earlier
             if (PreStartup != null)
                 PreStartup(null, null);
             if (SettingsProvider == null)
@@ -43,6 +45,7 @@ namespace PartyCraft
             }
 
             var server = new Server(SettingsProvider);
+            LoadPlugins(server);
             Command.LoadCommands(server);
             // TODO: Better logging
             var consoleLog = new ConsoleLogWriter(LogImportance.Medium);
@@ -68,6 +71,26 @@ namespace PartyCraft
             server.Stop();
         }
 
+        private static void LoadPlugins(Server server)
+        {
+            // TODO: Make this better
+            // Dynamic plugins
+            var plugins = Directory.GetFiles(Path.Combine("plugins", "dynamic"), "*.csx");
+            var eval = new Evaluator(new CompilerContext(new CompilerSettings(), new ConsoleReportPrinter()));
+            eval.ReferenceAssembly(typeof(Plugin).Assembly);
+            eval.ReferenceAssembly(typeof(MinecraftServer).Assembly);
+            foreach (var plugin in plugins)
+                eval.Compile(File.ReadAllText(plugin));
+
+            var types = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetTypes())
+                    .Aggregate((a, b) => a.Concat(b).ToArray()).Where(t => !t.IsAbstract && typeof(Plugin).IsAssignableFrom(t));
+            foreach (var type in types)
+            {
+                var plugin = (Plugin)Activator.CreateInstance(type);
+                plugin.OnInitialize(server);
+            }
+        }
+
         private static void SetUpDefaultPermissions(ISettingsProvider SettingsProvider)
         {
             // TODO: Is this the best way to go about this?
@@ -78,6 +101,8 @@ namespace PartyCraft
         {
             if (!Directory.Exists("plugins"))
                 Directory.CreateDirectory("plugins");
+            if (!Directory.Exists(Path.Combine("plugins", "dynamic")))
+                Directory.CreateDirectory(Path.Combine("plugins", "dynamic"));
         }
     }
 }

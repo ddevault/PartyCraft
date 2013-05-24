@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B4A1199D-5DEB-4236-8B5F-889DDA825661}</ProjectGuid>
+    <ProjectGuid>{6D88E39F-5DC9-4C0A-84D6-25B835243503}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartyCraft.Test</RootNamespace>
-    <AssemblyName>PartyCraft.Test</AssemblyName>
+    <RootNamespace>PartyCraft.API</RootNamespace>
+    <AssemblyName>PartyCraft.API</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.mocks">
-      <HintPath>..\lib\nunit.mocks.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,26 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VanillaSettingsTest.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="ISettingsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="server.properties">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Craft.Net\Craft.Net.Data\Craft.Net.Data.csproj">
+      <Project>{30c3f936-8d95-4113-ba48-8b798b056309}</Project>
+      <Name>Craft.Net.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Craft.Net\Craft.Net.Server\Craft.Net.Server.csproj">
+      <Project>{e00c6ff6-bcd8-44e0-bcd8-5f1bdf201617}</Project>
+      <Name>Craft.Net.Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Craft.Net\Craft.Net\Craft.Net.csproj">
       <Project>{c3bbab7e-606f-420e-9461-c8cfaec2476b}</Project>
       <Name>Craft.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PartyCraft.API\PartyCraft.API.csproj">
-      <Project>{6d88e39f-5dc9-4c0a-84d6-25b835243503}</Project>
-      <Name>PartyCraft.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PartyCraft\PartyCraft.csproj">
-      <Project>{D775A992-A192-44C3-B745-C64041947BD4}</Project>
-      <Name>PartyCraft</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

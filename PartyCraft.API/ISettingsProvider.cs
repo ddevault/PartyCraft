@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace PartyCraft
+namespace PartyCraft.API
 {
     public interface ISettingsProvider : INotifyPropertyChanged
     {

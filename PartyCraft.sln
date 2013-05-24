@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Craft.Net.Data", "..\Craft.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Craft.Net.Server", "..\Craft.Net\Craft.Net.Server\Craft.Net.Server.csproj", "{E00C6FF6-BCD8-44E0-BCD8-5F1BDF201617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fNbt", "..\Craft.Net\externals\fNbt\fNbt\fNbt.csproj", "{4488498d-976d-4da3-bf72-109531af0488}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fNbt", "..\Craft.Net\externals\fNbt\fNbt\fNbt.csproj", "{4488498D-976D-4DA3-BF72-109531AF0488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft.API", "PartyCraft.API\PartyCraft.API.csproj", "{6D88E39F-5DC9-4C0A-84D6-25B835243503}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +86,16 @@ Global
 		{4488498D-976D-4DA3-BF72-109531AF0488}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4488498D-976D-4DA3-BF72-109531AF0488}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4488498D-976D-4DA3-BF72-109531AF0488}.Release|x86.ActiveCfg = Release|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6D88E39F-5DC9-4C0A-84D6-25B835243503}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

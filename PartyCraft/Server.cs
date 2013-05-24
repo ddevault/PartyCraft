@@ -8,10 +8,11 @@ using Craft.Net.Server;
 using System.Net;
 using Craft.Net.Server.Events;
 using Craft.Net;
+using PartyCraft.API;
 
 namespace PartyCraft
 {
-    public class Server
+    public class Server : IServer
     {
         public MinecraftServer MinecraftServer { get; set; }
         public ISettingsProvider SettingsProvider { get; set; }
