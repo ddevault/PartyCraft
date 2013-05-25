@@ -51,6 +51,7 @@ namespace PartyCraft.Commands
             if (ReplContext.Self != null)
             {
                 user.SendChat(ChatColors.Red + ReplContext.Self.Username + " is currently in REPL mode. Only one user may be in REPL mode at a time.");
+                // TODO: Upgrade Mono.CSharp to Mono 3.0 and support several REPLs at once
                 return;
             }
             server.ChatMessage -= HandleChatMessage;
@@ -132,7 +133,7 @@ namespace PartyCraft.Commands
 
             public override void Print(AbstractMessage msg, bool showFullPath)
             {
-                Client.SendChat(msg.Text);
+                Client.SendChat(ChatColors.Red + msg.Text);
             }
         }
 

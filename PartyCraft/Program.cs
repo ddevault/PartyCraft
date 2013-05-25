@@ -83,7 +83,7 @@ namespace PartyCraft
             ScriptPluginBase.Server = server;
             foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csx"))
                 eval.Run(File.ReadAllText(plugin));
-            foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csc"))
+            foreach (var plugin in Directory.GetFiles(Path.Combine("plugins", "scripts"), "*.csc")) // TODO: Upgrade Mono.CSharp to Mono 3.0 to support Roslyn-style inline classes in csx files
                 eval.Compile(File.ReadAllText(plugin));
             // Load plugins
             var types = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetTypes())
