@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Craft.Net.Server;
 using Craft.Net.Data;
+using Craft.Net;
 
 namespace PartyCraft
 {
@@ -99,6 +100,12 @@ namespace PartyCraft
         public abstract string Documentation { get; }
         // TODO: CommandContext class
         public abstract void Execute(Server server, MinecraftClient user, string text, params string[] parameters);
+
+        public virtual bool TabComplete(Server server, string text, out string[] matches)
+        {
+            matches = new string[0];
+            return false;
+        }
 
         public List<string> Aliases { get; set; }
         public List<string> AllowedGroups { get; set; }

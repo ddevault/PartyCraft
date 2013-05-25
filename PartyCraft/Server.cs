@@ -17,6 +17,7 @@ namespace PartyCraft
         public MinecraftServer MinecraftServer { get; set; }
         public ISettingsProvider SettingsProvider { get; set; }
         public event EventHandler<ChatMessageEventArgs> ChatMessage;
+        public event EventHandler<TabCompleteEventArgs> TabComplete;
 
         public Server(ISettingsProvider settingsProvider)
         {
@@ -28,6 +29,7 @@ namespace PartyCraft
             MinecraftServer.ChatMessage += MinecraftServerOnChatMessage;
             MinecraftServer.PlayerLoggedIn += MinecraftServerOnPlayerLoggedIn;
             MinecraftServer.PlayerLoggedOut += MinecraftServerOnPlayerLoggedOut;
+            MinecraftServer.TabComplete += MinecraftServer_TabComplete;
         }
 
         public void Start()
@@ -114,6 +116,67 @@ namespace PartyCraft
         {
             playerLogInEventArgs.Handled = true;
             MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.leave"), playerLogInEventArgs.Username));
+        }
+
+        void MinecraftServer_TabComplete(object sender, TabCompleteEventArgs e)
+        {
+            if (TabComplete != null)
+            {
+                var eventArgs = new TabCompleteEventArgs(e.Text, e.Client);
+                TabComplete(this, eventArgs);
+                if (eventArgs.Handled)
+                    return;
+            }
+            // Handle it ourselves
+            string[] matches = new string[0];
+            if (e.Text.StartsWith("/"))
+            {
+                // Command
+                if (e.Text.Contains(' '))
+                {
+                    // Command parameter
+                    var name = e.Text.Substring(1, e.Text.IndexOf(' ') - 1);
+                    var text = e.Text.Substring(e.Text.IndexOf(' ') + 1);
+                    var command = Command.GetCommand(name);
+                    if (command.TabComplete(this, text, out matches))
+                        e.Text = matches.First();
+                    else
+                        TabCompleteUsername(e.Text, out matches);
+                }
+                else
+                {
+                    var commands = new List<string>();
+                    foreach (var command in Command.Commands)
+                    {
+                        commands.Add("/" + command.DefaultCommand);
+                        commands.AddRange(command.Aliases.Select(s => "/" + s));
+                    }
+                    matches = commands.Where(c => c.StartsWith(e.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
+                    if (matches.Length == 1)
+                        e.Text = "/" + matches.First();
+                }
+            }
+            else
+                TabCompleteUsername(e.Text, out matches);
+            if (matches.Length == 1)
+            {
+                e.Handled = true;
+                e.Text = matches[0];
+            }
+            else
+                e.Client.SendChat(string.Join(", ", matches));
+        }
+
+        public bool TabCompleteUsername(string text, out string[] matches)
+        {
+            if (text.Contains(' '))
+                text = text.Substring(text.LastIndexOf(' ') + 1);
+            matches = MinecraftServer.Clients.Where(c => c.IsLoggedIn
+                && c.Username.StartsWith(text, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(c => c.Username).Select(c => c.Username).ToArray();
+            if (matches.Length == 1)
+                return true;
+            return false;
         }
 
         #endregion
