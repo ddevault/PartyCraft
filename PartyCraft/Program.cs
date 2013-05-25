@@ -27,7 +27,7 @@ namespace PartyCraft
 
         public static void Main(string[] args)
         {
-            CheckEnviornment();
+            CheckEnvironment();
             // TODO: Load certain plugins earlier
             if (PreStartup != null)
                 PreStartup(null, null);
@@ -101,7 +101,7 @@ namespace PartyCraft
 
         }
 
-        private static void CheckEnviornment()
+        private static void CheckEnvironment()
         {
             if (!Directory.Exists("plugins"))
                 Directory.CreateDirectory("plugins");
