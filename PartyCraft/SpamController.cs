@@ -8,41 +8,49 @@ using Craft.Net.Server;
 
 namespace PartyCraft
 {
-    class SpamController
+    internal class SpamController
     {
-        public static Dictionary<string, int> sd = new Dictionary<string, int>();
-        public static Dictionary<string, string> pm = new Dictionary<string, string>();
+        public Dictionary<string, int> numberOfMessages;
+        public Dictionary<string, string> previousMessages;
 
-        public static void Init(string name)
+        public SpamController()
         {
-                sd.Add(name, 0);
-                pm.Add(name, "");
+            numberOfMessages = new Dictionary<string, int>();
+            previousMessages = new Dictionary<string, string>();
+        }
+        
+        
+        public void Init(string name)
+        {
+
+                numberOfMessages.Add(name, 0);
+                previousMessages.Add(name, string.Empty);
         }
 
-        public static void Remove(string name)
+        public void Remove(string name)
         {
-            sd.Remove(name);
-            pm.Remove(name);
+            numberOfMessages.Remove(name);
+            previousMessages.Remove(name);
         }
 
-        public static bool CheckForSpam(string name,string message)
+        public bool CheckForSpam(string name,string message)
         {
-            if (message == pm[name])
+            if (message == previousMessages[name])
             {
-                    if (sd[name] > 2)
+                    if (numberOfMessages[name] > 2)
                     {
                         return true;
                     }
                     else
                     {
-                        sd[name] += 1;
+                        numberOfMessages[name] += 1;
                         return false;
                     }
             }
             else
             {
-                pm[name] = message;
-                sd[name] = 0;
+                previousMessages[name] = message;
+                numberOfMessages[name] = 0;
                 return false;
             }
         }

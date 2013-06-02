@@ -12,7 +12,7 @@ namespace PartyCraft.Commands
     {
         protected internal override void LoadDefaultPermissions()
         {
-            AllowedGroups = new List<string>(new[] { "server.op" });
+            AllowedGroups = new List<string>(new[]{"server.op"});
         }
 
         
@@ -23,19 +23,19 @@ namespace PartyCraft.Commands
 
         public override string Documentation
         {
-            get { return "Usage: /kick player\n" + "Kicks a player from the game."; }
+            get {return "Usage: /kick player\n" + "Kicks a player from the game."; }
         }
 
         public override void Execute(Server server, Craft.Net.Server.MinecraftClient user, string text, params string[] parameters)
         {
-            try
+            if (parameters.Length == 1)
             {
                 server.MinecraftServer.SendChat(parameters[0] + " was kicked by " + user.Username);
                 server.MinecraftServer.GetClient(parameters[0]).SendPacket(new DisconnectPacket("You were kicked by " + user.Username));
             }
-            catch
+            else
             {
-                user.SendChat("Incorrect Usage.\n" + Documentation);
+                user.SendChat("Incorrect Usage.\n" + "Usage: /kick player");
             }
         }
     }

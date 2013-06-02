@@ -18,6 +18,7 @@ namespace PartyCraft
         public ISettingsProvider SettingsProvider { get; set; }
         public event EventHandler<ChatMessageEventArgs> ChatMessage;
         public event EventHandler<TabCompleteEventArgs> TabComplete;
+        public SpamController spamController = new SpamController();
 
         public Server(ISettingsProvider settingsProvider)
         {
@@ -99,7 +100,7 @@ namespace PartyCraft
             }
             else
             {
-                if (!SpamController.CheckForSpam(chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage))
+                if (!spamController.CheckForSpam(chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage))
                 {
                     MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.format"),
                         chatMessageEventArgs.Origin.Username, chatMessageEventArgs.RawMessage));
