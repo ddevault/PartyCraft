@@ -18,7 +18,7 @@ namespace PartyCraft
         public ISettingsProvider SettingsProvider { get; set; }
         public event EventHandler<ChatMessageEventArgs> ChatMessage;
         public event EventHandler<TabCompleteEventArgs> TabComplete;
-        public SpamController spamController = new SpamController();
+        internal SpamController spamController = new SpamController();
 
         public Server(ISettingsProvider settingsProvider)
         {
@@ -118,14 +118,14 @@ namespace PartyCraft
             playerLogInEventArgs.Client.Tags = new Dictionary<string, object>();
             playerLogInEventArgs.Client.Tags.Add("PartyCraft.UserGroups", GetUserGroups(playerLogInEventArgs.Username));
             MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.join"), playerLogInEventArgs.Username));
-            SpamController.Init(playerLogInEventArgs.Username);
+            spamController.Init(playerLogInEventArgs.Username);
         }
 
         private void MinecraftServerOnPlayerLoggedOut(object sender, PlayerLogInEventArgs playerLogInEventArgs)
         {
             playerLogInEventArgs.Handled = true;
             MinecraftServer.SendChat(string.Format(SettingsProvider.Get<string>("chat.leave"), playerLogInEventArgs.Username));
-            SpamController.Remove(playerLogInEventArgs.Username);
+            spamController.Remove(playerLogInEventArgs.Username);
         }
 
         void MinecraftServer_TabComplete(object sender, TabCompleteEventArgs e)
