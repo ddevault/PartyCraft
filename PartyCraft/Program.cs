@@ -60,7 +60,8 @@ namespace PartyCraft
                 var command = Console.ReadLine();
                 try
                 {
-                    Command.ExecuteCommand(server, ConsoleClient, command);
+                    if (!String.IsNullOrWhiteSpace(command))
+                        Command.ExecuteCommand(server, ConsoleClient, command);
                 }
                 catch (Exception e)
                 {
