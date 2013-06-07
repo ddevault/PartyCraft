@@ -52,9 +52,9 @@ namespace PartyCraft.Commands
             else
             {
                 string timeString;
-                if (parameters[0].ToLower() == "set")
+                if (parameters[0].ToLower() == "set" && parameters.Length > 1)
                     timeString = parameters[1];
-                else if (parameters[0].ToLower() == "add")
+                else if (parameters[0].ToLower() == "add" && parameters.Length > 1)
                 {
                     timeString = parameters[1];
                     add = true;
