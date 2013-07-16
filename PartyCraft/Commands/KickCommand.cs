@@ -30,8 +30,15 @@ namespace PartyCraft.Commands
         {
             if (parameters.Length == 1)
             {
+                if (server.MinecraftServer.GetClient(parameters[0]) != null)
+                {
                 server.MinecraftServer.SendChat(parameters[0] + " was kicked by " + user.Username);
-                server.MinecraftServer.GetClient(parameters[0]).SendPacket(new DisconnectPacket("You were kicked by " + user.Username));
+                server.MinecraftServer.GetClient(parameters[0]).Disconnect("You were kicked by " + user.Username);
+                }
+                else
+                {
+                    user.SendChat("Player is not online.");
+                }
             }
             else
             {
