@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft", "PartyCraft\PartyCraft.csproj", "{D775A992-A192-44C3-B745-C64041947BD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft.Test", "PartyCraft.Test\PartyCraft.Test.csproj", "{B4A1199D-5DEB-4236-8B5F-889DDA825661}"
