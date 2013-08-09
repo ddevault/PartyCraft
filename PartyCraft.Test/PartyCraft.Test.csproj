@@ -56,17 +56,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Craft.Net\Craft.Net\Craft.Net.csproj">
-      <Project>{c3bbab7e-606f-420e-9461-c8cfaec2476b}</Project>
-      <Name>Craft.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PartyCraft.API\PartyCraft.API.csproj">
-      <Project>{6d88e39f-5dc9-4c0a-84d6-25b835243503}</Project>
+      <Project>{6D88E39F-5DC9-4C0A-84D6-25B835243503}</Project>
       <Name>PartyCraft.API</Name>
     </ProjectReference>
     <ProjectReference Include="..\PartyCraft\PartyCraft.csproj">
       <Project>{D775A992-A192-44C3-B745-C64041947BD4}</Project>
       <Name>PartyCraft</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Common\Craft.Net.Common.csproj">
+      <Project>{50462849-2223-4E39-B5D9-A928A9A58A33}</Project>
+      <Name>Craft.Net.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

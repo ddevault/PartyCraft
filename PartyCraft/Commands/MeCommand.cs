@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Craft.Net.Data;
+using Craft.Net.Common;
 using Craft.Net.Server;
 
 namespace PartyCraft.Commands
@@ -24,7 +24,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string userText, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string userText, params string[] parameters)
         {
             server.MinecraftServer.SendChat(string.Format(server.SettingsProvider.Get<string>("chat.self.format"),
                 user.Username, userText));

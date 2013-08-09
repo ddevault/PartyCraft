@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Craft.Net;
-using Craft.Net.Data;
 using Craft.Net.Server;
+using Craft.Net.Common;
 
 namespace PartyCraft.Commands
 {
@@ -32,7 +32,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             if (parameters.Length != 1)
             {
@@ -58,7 +58,7 @@ namespace PartyCraft.Commands
                     return;
                 }
             }
-            server.MinecraftServer.GetLevel(user.World).Difficulty = value;
+            //user.World.Difficulty = value; // TODO
             server.SendChatToGroup("server.op", ChatColors.Gray + user.Username + " sets difficulty of " + user.World.Name + " to " + value.ToString());
         }
     }

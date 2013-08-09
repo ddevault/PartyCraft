@@ -47,9 +47,9 @@ namespace PartyCraft
             var server = new Server(SettingsProvider);
             LoadPlugins(server);
             Command.LoadCommands(server);
-            // TODO: Better logging
-            var consoleLog = new ConsoleLogWriter(LogImportance.Medium);
-            LogProvider.RegisterProvider(consoleLog);
+            // TODO
+            //var consoleLog = new ConsoleLogWriter(LogImportance.Medium);
+            //LogProvider.RegisterProvider(consoleLog);
 
             server.Start();
 

@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D775A992-A192-44C3-B745-C64041947BD4}</ProjectGuid>
@@ -19,25 +19,6 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
   </PropertyGroup>
@@ -45,6 +26,31 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <BaseAddress>4194304</BaseAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <RegisterForComInterop>False</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <RegisterForComInterop>False</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip.Reduced">
@@ -92,21 +98,45 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Craft.Net\Craft.Net.Data\Craft.Net.Data.csproj">
-      <Project>{30c3f936-8d95-4113-ba48-8b798b056309}</Project>
-      <Name>Craft.Net.Data</Name>
+    <ProjectReference Include="..\PartyCraft.API\PartyCraft.API.csproj">
+      <Project>{6D88E39F-5DC9-4C0A-84D6-25B835243503}</Project>
+      <Name>PartyCraft.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Craft.Net\Craft.Net.Server\Craft.Net.Server.csproj">
-      <Project>{e00c6ff6-bcd8-44e0-bcd8-5f1bdf201617}</Project>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Anvil\Craft.Net.Anvil.csproj">
+      <Project>{02031C5C-5007-48D5-A253-F7C8BDF0C0B2}</Project>
+      <Name>Craft.Net.Anvil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Common\Craft.Net.Common.csproj">
+      <Project>{50462849-2223-4E39-B5D9-A928A9A58A33}</Project>
+      <Name>Craft.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Entities\Craft.Net.Entities.csproj">
+      <Project>{451B4EE5-D815-47BF-9CE6-08328B4A2BA7}</Project>
+      <Name>Craft.Net.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Logic\Craft.Net.Logic.csproj">
+      <Project>{E001ADA1-6BCB-420E-B187-07FF361D60B8}</Project>
+      <Name>Craft.Net.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Networking\Craft.Net.Networking.csproj">
+      <Project>{C3BBAB7E-606F-420E-9461-C8CFAEC2476B}</Project>
+      <Name>Craft.Net.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Physics\Craft.Net.Physics.csproj">
+      <Project>{C04C72EF-5FD5-42DA-B1DC-F232D3E86636}</Project>
+      <Name>Craft.Net.Physics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.Server\Craft.Net.Server.csproj">
+      <Project>{81467141-9C7D-41EE-BFB0-D40251E10F8C}</Project>
       <Name>Craft.Net.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Craft.Net\Craft.Net\Craft.Net.csproj">
-      <Project>{c3bbab7e-606f-420e-9461-c8cfaec2476b}</Project>
-      <Name>Craft.Net</Name>
+    <ProjectReference Include="..\externals\Craft.Net\source\Craft.Net.TerrainGeneration\Craft.Net.TerrainGeneration.csproj">
+      <Project>{B415FC03-C6FB-4B20-A5A1-81F526ADFEF5}</Project>
+      <Name>Craft.Net.TerrainGeneration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PartyCraft.API\PartyCraft.API.csproj">
-      <Project>{6d88e39f-5dc9-4c0a-84d6-25b835243503}</Project>
-      <Name>PartyCraft.API</Name>
+    <ProjectReference Include="..\..\Craft.Net\externals\fNbt\fNbt\fNbt.csproj">
+      <Project>{4488498D-976D-4DA3-BF72-109531AF0488}</Project>
+      <Name>fNbt</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

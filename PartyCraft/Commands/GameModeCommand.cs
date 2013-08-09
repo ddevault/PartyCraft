@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Craft.Net;
-using Craft.Net.Data;
 using Craft.Net.Server;
+using Craft.Net.Common;
 
 namespace PartyCraft.Commands
 {
@@ -32,7 +32,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             string player = user.Username;
             GameMode gameMode;
@@ -67,7 +67,7 @@ namespace PartyCraft.Commands
                 user.SendChat(ChatColors.Red + player + " is not online."); // TODO: Set it anyway
                 return;
             }
-            client.Entity.GameMode = gameMode;
+            client.GameMode = gameMode;
             server.SendChatToGroup("server.op", ChatColors.Gray + user.Username + " sets " + player + " to " + gameMode + " mode.");
         }
 

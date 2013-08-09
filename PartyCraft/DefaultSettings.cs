@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Craft.Net;
-using Craft.Net.Data;
+using Craft.Net.Common;
+using Craft.Net.Anvil;
 
 namespace PartyCraft
 {
@@ -19,7 +20,7 @@ namespace PartyCraft
         {
             Settings = new Dictionary<string, string>();
             Set("server.port", "25565");
-            Set("level.type", Level.DefaultGenerator.GeneratorName);
+            Set("level.type", "DEFAULT"); // TODO: This might not be accurate
             Set("level.name", "world");
             Set("server.motd", "PartyCraft Server");
             Set("server.rcon", false);

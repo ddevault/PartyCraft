@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Craft.Net.Server;
-using Craft.Net.Data;
 using Craft.Net;
+using Craft.Net.Common;
 
 namespace PartyCraft
 {
@@ -38,7 +38,7 @@ namespace PartyCraft
             }
         }
 
-        public static void ExecuteCommand(Server server, MinecraftClient user, string text)
+        public static void ExecuteCommand(Server server, RemoteClient user, string text)
         {
             string name = text.Substring(1);
             if (string.IsNullOrEmpty(name))
@@ -78,7 +78,7 @@ namespace PartyCraft
             return null;
         }
 
-        public static bool MayUseCommand(Command command, MinecraftClient user, Server server)
+        public static bool MayUseCommand(Command command, RemoteClient user, Server server)
         {
             if (user is ConsoleClient)
                 return true;
@@ -99,7 +99,7 @@ namespace PartyCraft
         public abstract string DefaultCommand { get; }
         public abstract string Documentation { get; }
         // TODO: CommandContext class
-        public abstract void Execute(Server server, MinecraftClient user, string text, params string[] parameters);
+        public abstract void Execute(Server server, RemoteClient user, string text, params string[] parameters);
 
         public virtual bool TabComplete(Server server, string text, out string[] matches)
         {

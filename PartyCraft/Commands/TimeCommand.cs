@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Craft.Net.Data;
+using Craft.Net.Common;
 using Craft.Net.Server;
 namespace PartyCraft.Commands
 {
@@ -31,10 +31,10 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             bool add = false;
-            var current = server.MinecraftServer.GetLevel(user).Time;
+            var current = server.MinecraftServer.Level.Time;
             long? time = null;
             if (parameters.Length == 0)
             {
@@ -87,7 +87,7 @@ namespace PartyCraft.Commands
 
             time = time.Value % 24000;
             
-            server.MinecraftServer.GetLevel(user).Time = time.Value; // TODO: Add event listener in Craft.Net
+            server.MinecraftServer.Level.Time = time.Value; // TODO: Add event listener in Craft.Net
             server.SendChatToGroup("server.op", ChatColors.Gray + user.Username + " set the time in " + user.World.Name +
                 " to " + time.Value + ", or " + LongToTimeString(time.Value));
         }

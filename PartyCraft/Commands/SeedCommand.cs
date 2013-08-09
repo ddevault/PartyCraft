@@ -22,9 +22,9 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
-            user.SendChat(server.MinecraftServer.GetLevel(user.World).Seed.ToString()); // TODO: Maybe add some stuff in Craft.Net to make this less cumbersome
+            user.SendChat(server.MinecraftServer.Level.RandomSeed.ToString()); // TODO: Maybe add some stuff in Craft.Net to make this less cumbersome
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Craft.Net.Data;
+﻿using Craft.Net.Common;
 using Craft.Net.Server;
 using Craft.Net.Server.Events;
 using Mono.CSharp;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Craft.Net.Anvil;
 
 namespace PartyCraft.Commands
 {
@@ -40,7 +41,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             Server = server;
             if (parameters.Length != 0)
@@ -65,7 +66,7 @@ namespace PartyCraft.Commands
             Evaluators[user.Username] = new Evaluator(new CompilerContext(new CompilerSettings(), new MinecraftReportPrinter(user)));
             Evaluators[user.Username].ReferenceAssembly(typeof(Server).Assembly);
             Evaluators[user.Username].ReferenceAssembly(typeof(MinecraftServer).Assembly);
-            Evaluators[user.Username].ReferenceAssembly(typeof(Craft.Net.IPacket).Assembly);
+            Evaluators[user.Username].ReferenceAssembly(typeof(Craft.Net.Networking.IPacket).Assembly);
             Evaluators[user.Username].ReferenceAssembly(typeof(World).Assembly);
             Evaluators[user.Username].ReferenceAssembly(typeof(IServer).Assembly);
             Evaluators[user.Username].InteractiveBaseClass = typeof(ReplContext);
@@ -115,7 +116,7 @@ namespace PartyCraft.Commands
                 if (result_set)
                     e.Origin.SendChat(result.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ...will be sent to the user by Mono.CSharp...
             }
@@ -124,9 +125,9 @@ namespace PartyCraft.Commands
 
         class MinecraftReportPrinter : ReportPrinter
         {
-            public MinecraftClient Client { get; set; }
+            public RemoteClient Client { get; set; }
 
-            public MinecraftReportPrinter(MinecraftClient client)
+            public MinecraftReportPrinter(RemoteClient client)
             {
                 Client = client;
             }
@@ -141,7 +142,7 @@ namespace PartyCraft.Commands
         {
             public static bool LongExpression { get; set; }
             public static string WorkingExpression { get; set; }
-            public static MinecraftClient Self { get; set; }
+            public static RemoteClient Self { get; set; }
             public static Server Server { get; set; }
 
             public static void Exit()

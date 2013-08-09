@@ -1,14 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Craft.Net.Data;
-using Craft.Net.Data.Generation;
+using Craft.Net.Common;
+using Craft.Net.TerrainGeneration;
 using Craft.Net.Server;
 using System.Net;
 using Craft.Net.Server.Events;
 using Craft.Net;
 using PartyCraft.API;
+using Craft.Net.Anvil;
 
 namespace PartyCraft
 {
@@ -22,22 +24,32 @@ namespace PartyCraft
         public Server(ISettingsProvider settingsProvider)
         {
             SettingsProvider = settingsProvider;
-            var port = SettingsProvider.Get<int>("server.port");
-            MinecraftServer = new MinecraftServer(new IPEndPoint(IPAddress.Any, port));
+            // Touch TerrainGeneration to load it into app domain
+            FlatlandGenerator.DefaultGeneratorOptions.ToString();
+            var generator = Level.GetGenerator(SettingsProvider.Get<string>("level.type"));
+            if (generator == null)
+                generator = new FlatlandGenerator();
+            Level level;
+            if (Directory.Exists(SettingsProvider.Get<string>("level.name")))
+                level = Level.LoadFrom(SettingsProvider.Get<string>("level.name"));
+            else
+            {
+                level = new Level(generator, SettingsProvider.Get<string>("level.name"));
+                level.AddWorld(new World("overworld"));
+            }
+            MinecraftServer = new MinecraftServer(level);
             MinecraftServer.Settings.MotD = SettingsProvider.Get<string>("server.motd");
             MinecraftServer.Settings.OnlineMode = SettingsProvider.Get<bool>("server.onlinemode");
             MinecraftServer.ChatMessage += MinecraftServerOnChatMessage;
             MinecraftServer.PlayerLoggedIn += MinecraftServerOnPlayerLoggedIn;
             MinecraftServer.PlayerLoggedOut += MinecraftServerOnPlayerLoggedOut;
-            MinecraftServer.TabComplete += MinecraftServer_TabComplete;
+            //MinecraftServer.TabComplete += MinecraftServer_TabComplete;
         }
 
         public void Start()
         {
-            MinecraftServer.AddLevel(new Level(Level.GetGenerator(SettingsProvider.Get<string>("level.type")), 
-                SettingsProvider.Get<string>("level.name")));
-            MinecraftServer.DefaultLevel.GameMode = SettingsProvider.Get<GameMode>("level.gamemode");
-            MinecraftServer.Start();
+            MinecraftServer.Level.GameMode = SettingsProvider.Get<GameMode>("level.gamemode");
+            MinecraftServer.Start(new IPEndPoint(IPAddress.Any, SettingsProvider.Get<int>("server.port")));
         }
 
         public void Stop()

@@ -1,9 +1,9 @@
-﻿using Craft.Net.Data;
-using Craft.Net.Server;
+﻿using Craft.Net.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Common;
 
 namespace PartyCraft.Commands
 {
@@ -29,7 +29,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             if (parameters.Length != 1)
             {

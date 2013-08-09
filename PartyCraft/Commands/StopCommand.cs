@@ -28,7 +28,7 @@ namespace PartyCraft.Commands
             }
         }
 
-        public override void Execute(Server server, MinecraftClient user, string text, params string[] parameters)
+        public override void Execute(Server server, RemoteClient user, string text, params string[] parameters)
         {
             Process.GetCurrentProcess().Kill(); // TODO: Friendly kick message
         }
