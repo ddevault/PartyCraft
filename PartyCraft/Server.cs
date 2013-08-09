@@ -11,6 +11,7 @@ using Craft.Net.Server.Events;
 using Craft.Net;
 using PartyCraft.API;
 using Craft.Net.Anvil;
+using System.Threading;
 
 namespace PartyCraft
 {
@@ -20,6 +21,8 @@ namespace PartyCraft
         public ISettingsProvider SettingsProvider { get; set; }
         public event EventHandler<ChatMessageEventArgs> ChatMessage;
         public event EventHandler<TabCompleteEventArgs> TabComplete;
+
+        private Timer LevelSaveTimer { get; set; }
 
         public Server(ISettingsProvider settingsProvider)
         {
@@ -35,7 +38,8 @@ namespace PartyCraft
             else
             {
                 level = new Level(generator, SettingsProvider.Get<string>("level.name"));
-                level.AddWorld(new World("overworld"));
+                level.AddWorld("overworld");
+                level.SaveTo(SettingsProvider.Get<string>("level.name"));
             }
             MinecraftServer = new MinecraftServer(level);
             MinecraftServer.Settings.MotD = SettingsProvider.Get<string>("server.motd");
@@ -50,11 +54,14 @@ namespace PartyCraft
         {
             MinecraftServer.Level.GameMode = SettingsProvider.Get<GameMode>("level.gamemode");
             MinecraftServer.Start(new IPEndPoint(IPAddress.Any, SettingsProvider.Get<int>("server.port")));
+            LevelSaveTimer = new Timer(o => MinecraftServer.Level.Save(), null, 30000, 30000);
         }
 
         public void Stop()
         {
             MinecraftServer.Stop();
+            MinecraftServer.Level.Save();
+            LevelSaveTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         public List<string> GetUserGroups(string user)

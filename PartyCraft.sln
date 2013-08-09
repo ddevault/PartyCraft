@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft", "PartyCraft\Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft.Test", "PartyCraft.Test\PartyCraft.Test.csproj", "{B4A1199D-5DEB-4236-8B5F-889DDA825661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fNbt", "..\Craft.Net\externals\fNbt\fNbt\fNbt.csproj", "{4488498D-976D-4DA3-BF72-109531AF0488}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fNbt", "externals\Craft.Net\externals\fNbt\fNbt\fNbt.csproj", "{4488498D-976D-4DA3-BF72-109531AF0488}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyCraft.API", "PartyCraft.API\PartyCraft.API.csproj", "{6D88E39F-5DC9-4C0A-84D6-25B835243503}"
 EndProject
