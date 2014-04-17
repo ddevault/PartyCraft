@@ -1,10 +1,10 @@
-﻿using Craft.Net;
-using Craft.Net.Common;
-using Craft.Net.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Server;
+using Craft.Net;
+using Craft.Net.Common;
 
 namespace PartyCraft
 {
@@ -97,9 +97,7 @@ namespace PartyCraft
 		}
 
 		public abstract string DefaultCommand { get; }
-
 		public abstract string Documentation { get; }
-
 		// TODO: CommandContext class
 		public abstract void Execute(Server server, RemoteClient user, string text, params string[] parameters);
 
@@ -110,7 +108,6 @@ namespace PartyCraft
 		}
 
 		public virtual List<string> Aliases { get; set; }
-
 		public List<string> AllowedGroups { get; set; }
 	}
 }

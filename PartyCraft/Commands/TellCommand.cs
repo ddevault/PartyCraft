@@ -1,9 +1,9 @@
-﻿using Craft.Net.Common;
-using Craft.Net.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Common;
+using Craft.Net.Server;
 
 namespace PartyCraft.Commands
 {
@@ -14,6 +14,14 @@ namespace PartyCraft.Commands
 			get { return "tell"; }
 		}
 
+		public override List<string> Aliases
+		{
+			get
+			{
+				return new List<string>(new[] { "msg", "w" });
+			}
+		}
+
 		public override string Documentation
 		{
 			get
@@ -21,14 +29,6 @@ namespace PartyCraft.Commands
 				return "Sends a private message to the specified player.\n" +
 					"Usage: /tell " + ChatColors.Italic + "player message\n" +
 					"Example: /tell notch Hello!";
-			}
-		}
-
-		public override List<string> Aliases
-		{
-			get
-			{
-				return new List<string>(new[] { "msg", "w" });
 			}
 		}
 

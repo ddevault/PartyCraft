@@ -1,9 +1,9 @@
-﻿using Craft.Net.Common;
-using Craft.Net.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Craft.Net.Server;
+using Craft.Net.Common;
 
 namespace PartyCraft.Commands
 {
@@ -16,6 +16,14 @@ namespace PartyCraft.Commands
 			get { return "help"; }
 		}
 
+		public override List<string> Aliases
+		{
+			get
+			{
+				return new List<string>(new[] { "?" });
+			}
+		}
+
 		public override string Documentation
 		{
 			get
@@ -25,14 +33,6 @@ namespace PartyCraft.Commands
 					"Example: /help tell or /help 1\n" +
 					"If a number is given, a list of all commands is shown, starting\n" +
 					"at the specified page.";
-			}
-		}
-
-		public override List<string> Aliases
-		{
-			get
-			{
-				return new List<string>(new[] { "?" });
 			}
 		}
 
